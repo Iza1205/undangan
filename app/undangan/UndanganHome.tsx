@@ -2,7 +2,6 @@
 
 import { useSearchParams } from 'next/navigation'
 import BottomNav from '@/components/BottomNav'
-import SectionHeader   from '@/components/sections/SectionHeader'
 import SectionHadist   from '@/components/sections/SectionHadist'
 import SectionHero     from '@/components/sections/SectionHero'
 import SectionKepada   from '@/components/sections/SectionKepada'
@@ -22,10 +21,9 @@ export default function UndanganHome() {
   return (
     <div className="app-shell">
       <div className="page-content">
-        <SectionHeader />
+        <SectionKepada   guest={guest} />
         <SectionHadist />
         <SectionHero     q={q} />
-        <SectionKepada   guest={guest} />
         <SectionMempelai q={q} />
         <SectionJadwal   q={q} />
         <SectionLokasi   q={q} />
