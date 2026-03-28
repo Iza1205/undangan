@@ -11,8 +11,6 @@ export default function JadwalContent() {
   const router = useRouter()
   const { events, venue, groom, bride } = weddingConfig
 
-  const EVENT_COLORS = ['#7C3AED', '#D4537E', '#0F6E56', '#BA7517']
-
   return (
     <div className="app-shell">
       <style suppressHydrationWarning>{`
@@ -34,13 +32,6 @@ export default function JadwalContent() {
           letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 10px;
-        }
-
-        .jd-event-card {
-          border: 0.5px solid var(--border);
-          border-radius: 14px;
-          padding: 16px 18px;
-          background: var(--surface);
         }
 
         .jd-maps-btn {
@@ -73,7 +64,7 @@ export default function JadwalContent() {
           </button>
           <div>
             <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.02em' }}>
-              Schedule
+              Jadwal Acara
             </p>
             <p style={{ fontSize: 11, color: 'var(--ink-3)', marginTop: 1 }}>
               {groom.name} & {bride.name}
@@ -94,13 +85,13 @@ export default function JadwalContent() {
         }}>
           <div>
             <p style={{ fontSize: 9, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>
-              Wedding Day
+              Hari Pernikahan
             </p>
             <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              June 14, 2025
+              02 Juni 2026
             </p>
             <p style={{ fontSize: 11, color: 'var(--ink-3)', marginTop: 5 }}>
-              Saturday · Save the date
+              Selasa · Tandai tanggalnya
             </p>
           </div>
           <div style={{
@@ -114,48 +105,97 @@ export default function JadwalContent() {
           </div>
         </div>
 
-        {/* ── Timeline ── */}
+        {/* ── Timeline — 1 card gabungan ── */}
         <p className="jd-section-label jd-3">Timeline</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 28 }}>
+        <div className="jd-3" style={{
+          borderRadius: 16,
+          overflow: 'hidden',
+          marginBottom: 28,
+          // Card menonjol dengan shadow lebih tebal + border berwarna
+          border: '1.5px solid var(--border)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+          background: 'var(--surface)',
+        }}>
           {events.map((ev, i) => (
-            <div key={ev.id} className={`jd-event-card jd-${i + 3}`}>
-              {/* Top row */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{
-                    width: 8, height: 8, borderRadius: '50%',
-                    background: EVENT_COLORS[i] ?? 'var(--ink-3)',
-                    flexShrink: 0,
-                  }} />
-                  <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.02em' }}>
-                    {ev.name}
+            <div
+              key={ev.id}
+              style={{
+                display: 'flex',
+                alignItems: 'stretch',
+                borderBottom: i < events.length - 1 ? '1px solid var(--border)' : 'none',
+              }}
+            >
+              {/* Left accent bar pakai warna event */}
+              <div style={{
+                width: 5,
+                flexShrink: 0,
+                background: ev.color,
+              }} />
+
+              {/* Content */}
+              <div style={{ flex: 1, padding: '18px 18px 18px 20px' }}>
+
+                {/* Nomor urut + nama event */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    {/* Nomor bulat berwarna */}
+                    <div style={{
+                      width: 24, height: 24, borderRadius: '50%',
+                      background: ev.color,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: '#fff' }}>{i + 1}</span>
+                    </div>
+                    <span style={{
+                      fontSize: 15, fontWeight: 800,
+                      color: 'var(--ink-1)',
+                      letterSpacing: '-0.02em',
+                    }}>
+                      {ev.name}
+                    </span>
+                  </div>
+
+                  {/* Badge warna event */}
+                  <span style={{
+                    fontSize: 9, fontWeight: 700,
+                    color: ev.color,
+                    background: `${ev.color}18`,
+                    padding: '3px 8px',
+                    borderRadius: 20,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                  }}>
+                    Acara {i + 1}
                   </span>
                 </div>
-                <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--ink-3)', letterSpacing: '0.06em' }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-              </div>
 
-              {/* Divider */}
-              <div style={{ height: '0.5px', background: 'var(--border)', marginBottom: 12 }} />
+                {/* Divider tipis */}
+                <div style={{ height: '0.5px', background: 'var(--border)', marginBottom: 12 }} />
 
-              {/* Meta */}
-              <div style={{ display: 'flex', gap: 16 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <CalendarDays size={11} color="var(--ink-3)" strokeWidth={1.8} />
-                  <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--ink-2)' }}>{ev.date}</span>
+                {/* Tanggal & jam — lebih besar dari sebelumnya */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                    <CalendarDays size={13} color="var(--ink-3)" strokeWidth={1.8} />
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.01em' }}>
+                      {ev.date}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                    <Clock size={13} color="var(--ink-3)" strokeWidth={1.8} />
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>
+                      {ev.time}
+                    </span>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <Clock size={11} color="var(--ink-3)" strokeWidth={1.8} />
-                  <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--ink-2)' }}>{ev.time}</span>
-                </div>
+
               </div>
             </div>
           ))}
         </div>
 
         {/* ── Venue ── */}
-        <p className="jd-section-label jd-4">Venue</p>
+        <p className="jd-section-label jd-4">Lokasi</p>
         <div className="jd-5" style={{
           border: '0.5px solid var(--border)',
           borderRadius: 14,
@@ -208,7 +248,7 @@ export default function JadwalContent() {
             className="jd-maps-btn"
           >
             <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-1)' }}>
-              Open in Google Maps
+              Buka di Google Maps
             </span>
             <div style={{
               width: 28, height: 28, borderRadius: 8,
@@ -221,7 +261,7 @@ export default function JadwalContent() {
           </a>
         </div>
 
-        {/* ── Notes ── */}
+        {/* ── Catatan ── */}
         <div className="jd-6" style={{
           border: '0.5px solid var(--border)',
           borderRadius: 14,
@@ -229,13 +269,13 @@ export default function JadwalContent() {
           background: 'var(--surface)',
         }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-1)', marginBottom: 12, letterSpacing: '-0.01em' }}>
-            Important Notes
+            Catatan Penting
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
             {[
-              'Please arrive on time',
+              'Mohon hadir tepat waktu',
               'Dress code: Batik / Formal',
-              'Kindly confirm your attendance',
+              'Konfirmasi kehadiran Anda',
             ].map((note, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 9 }}>
                 <div style={{
