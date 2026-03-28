@@ -1,0 +1,215 @@
+{
+  "guests": [
+    {
+      "id": "1",
+      "name": "Budi Santoso",
+      "slug": "budi-santoso-ab1",
+      "type": "vip",
+      "category": "Keluarga",
+      "phone": "6281234567890",
+      "notes": "",
+      "opened": true,
+      "openedAt": "2026-03-27T04:09:48.416Z",
+      "createdAt": "2026-03-27T03:59:08.684Z"
+    },
+    {
+      "id": "2",
+      "name": "Dewi Lestari",
+      "slug": "dewi-lestari-cd2",
+      "type": "umum",
+      "category": "Teman",
+      "phone": "6289876543210",
+      "notes": "",
+      "opened": true,
+      "openedAt": "2026-03-27T08:46:04.352Z",
+      "createdAt": "2026-03-27T03:59:08.685Z"
+    },
+    {
+      "id": "3",
+      "name": "Rudi Hermawan",
+      "slug": "rudi-hermawan-ef3",
+      "type": "umum",
+      "category": "Rekan Kerja",
+      "phone": "6285551234567",
+      "notes": "",
+      "opened": true,
+      "openedAt": "2026-03-28T04:17:55.090Z",
+      "createdAt": "2026-03-27T03:59:08.685Z"
+    }
+  ],
+  "rsvps": [
+    {
+      "id": "r1",
+      "name": "Budi Santoso",
+      "message": "Selamat menempuh hidup baru, semoga selalu bahagia dan diberkahi! 🎉",
+      "attendance": "hadir",
+      "createdAt": "2026-03-27T03:59:08.686Z"
+    },
+    {
+      "id": "r2",
+      "name": "Sari Indah",
+      "message": "Barakallahu lakuma wa baraka alaikuma wa jama'a bainakuma fi khair 💍",
+      "attendance": "hadir",
+      "createdAt": "2026-03-27T03:59:08.686Z"
+    },
+    {
+      "id": "r3",
+      "name": "Reza Pratama",
+      "message": "Mohon maaf tidak bisa hadir, semoga acaranya berjalan lancar 🙏",
+      "attendance": "tidak",
+      "createdAt": "2026-03-27T03:59:08.686Z"
+    },
+    {
+      "id": "zgpsyz",
+      "name": "Budi Santoso",
+      "attendance": "hadir",
+      "createdAt": "2026-03-27T04:09:57.659Z"
+    },
+    {
+      "id": "o36f2k",
+      "name": "Budi Santoso",
+      "attendance": "tidak",
+      "createdAt": "2026-03-27T04:19:06.056Z"
+    },
+    {
+      "id": "vlu4ci",
+      "name": "Budi Santoso",
+      "attendance": "tidak",
+      "createdAt": "2026-03-27T07:49:47.113Z"
+    },
+    {
+      "id": "nef88i",
+      "name": "Dewi Lestari",
+      "attendance": "hadir",
+      "createdAt": "2026-03-27T08:47:33.014Z"
+    },
+    {
+      "id": "1g5cal",
+      "name": "Budi Santoso",
+      "attendance": "hadir",
+      "createdAt": "2026-03-27T13:36:11.117Z"
+    }
+  ],
+  "doas": [
+    {
+      "id": "d1",
+      "name": "Budi Santoso",
+      "message": "Selamat menempuh hidup baru, semoga selalu bahagia dan diberkahi! 🎉",
+      "createdAt": "2026-03-27T04:09:48.416Z"
+    },
+    {
+      "id": "d2",
+      "name": "Sari Indah",
+      "message": "Barakallahu lakuma wa baraka alaikuma wa jama'a bainakuma fi khair 💍",
+      "createdAt": "2026-03-27T04:09:48.416Z"
+    },
+    {
+      "id": "d3",
+      "name": "Reza Pratama",
+      "message": "Mohon maaf tidak bisa hadir, semoga acaranya berjalan lancar 🙏",
+      "createdAt": "2026-03-27T04:09:48.416Z"
+    },
+    {
+      "id": "2yaf54",
+      "name": "Budi Santoso",
+      "message": "hehe",
+      "createdAt": "2026-03-27T04:10:16.291Z"
+    },
+    {
+      "id": "1awiv1",
+      "name": "Budi Santoso",
+      "message": "eyeyyy",
+      "createdAt": "2026-03-27T04:19:13.258Z"
+    },
+    {
+      "id": "qguzwc",
+      "name": "Budi Santoso",
+      "message": "q",
+      "createdAt": "2026-03-27T07:49:49.563Z"
+    },
+    {
+      "id": "83k4ul",
+      "name": "Dewi Lestari",
+      "message": "yey",
+      "createdAt": "2026-03-27T08:47:36.724Z"
+    },
+    {
+      "id": "bpr3r9",
+      "name": "Budi Santoso",
+      "message": "Selamat ya",
+      "createdAt": "2026-03-27T13:36:34.182Z"
+    }
+  ],
+  "reactions": [
+    {
+      "id": "jf8tnd",
+      "doaId": "qguzwc",
+      "name": "Budi Santoso",
+      "type": "love",
+      "createdAt": "2026-03-27T08:00:10.938Z"
+    },
+    {
+      "id": "6a14oc",
+      "doaId": "1awiv1",
+      "name": "Budi Santoso",
+      "type": "love",
+      "createdAt": "2026-03-27T08:04:18.130Z"
+    },
+    {
+      "id": "v79jms",
+      "doaId": "d3",
+      "name": "Budi Santoso",
+      "type": "suka",
+      "createdAt": "2026-03-27T08:04:21.264Z"
+    },
+    {
+      "id": "fd1sbw",
+      "doaId": "d2",
+      "name": "Budi Santoso",
+      "type": "suka",
+      "createdAt": "2026-03-27T08:04:22.027Z"
+    },
+    {
+      "id": "1k9zep",
+      "doaId": "d1",
+      "name": "Budi Santoso",
+      "type": "love",
+      "createdAt": "2026-03-27T08:04:22.800Z"
+    },
+    {
+      "id": "q6kp5z",
+      "doaId": "bpr3r9",
+      "name": "Budi Santoso",
+      "type": "love",
+      "createdAt": "2026-03-27T13:36:41.850Z"
+    },
+    {
+      "id": "qr3vkq",
+      "doaId": "bpr3r9",
+      "name": "Rudi Hermawan",
+      "type": "suka",
+      "createdAt": "2026-03-28T04:57:30.666Z"
+    },
+    {
+      "id": "93l6rh",
+      "doaId": "bpr3r9",
+      "name": "Rudi Hermawan",
+      "type": "senyum",
+      "createdAt": "2026-03-28T04:57:45.026Z"
+    },
+    {
+      "id": "96lfe1",
+      "doaId": "bpr3r9",
+      "name": "Rudi Hermawan",
+      "type": "love",
+      "createdAt": "2026-03-28T04:57:46.133Z"
+    },
+    {
+      "id": "8470si",
+      "doaId": "83k4ul",
+      "name": "Rudi Hermawan",
+      "type": "love",
+      "createdAt": "2026-03-28T05:01:04.315Z"
+    }
+  ]
+}
