@@ -7,6 +7,6 @@ export async function POST(request: Request) {
   if (!Array.isArray(guests)) {
     return NextResponse.json({ error: 'guests array required' }, { status: 400 })
   }
-  const count = importGuests(guests)
+  const count = await importGuests(guests)
   return NextResponse.json({ imported: count })
 }

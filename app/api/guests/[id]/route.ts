@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server'
-import { deleteGuest } from '@/lib/store'
+import { markOpened } from '@/lib/store'
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
-  const ok = deleteGuest(params.id)
-  if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+export async function POST(request: Request) {
+  const { slug } = await request.json()
+  if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })
+  markOpened(slug)
   return NextResponse.json({ success: true })
 }

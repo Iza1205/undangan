@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getAll, getStats, addGuest } from '@/lib/store'
 
 export async function GET() {
-  return NextResponse.json({ guests: getAll(), stats: getStats() })
+  return NextResponse.json({ guests: await getAll(), stats: await getStats() })
 }
 
 export async function POST(request: Request) {
@@ -10,6 +10,6 @@ export async function POST(request: Request) {
   if (!body.name?.trim()) {
     return NextResponse.json({ error: 'Name required' }, { status: 400 })
   }
-  const guest = addGuest(body)
+  const guest = await addGuest(body)
   return NextResponse.json(guest, { status: 201 })
 }

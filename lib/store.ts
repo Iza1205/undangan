@@ -1,373 +1,180 @@
-// lib/store.ts — file-based persistent store
-// Data disimpan di data/db.json agar tidak hilang saat hot-reload / restart
+// lib/store.ts — Upstash Redis store
+import { Redis } from '@upstash/redis'
 
-import fs from 'fs'
-import path from 'path'
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+})
 
 /* ── Types ── */
-
 export type Guest = {
-  id: string
-  name: string
-  slug: string
-  type: 'umum' | 'vip'
-  category: string
-  phone: string
-  notes: string
-  opened: boolean
-  openedAt: string | null
-  createdAt: string
+  id: string; name: string; slug: string
+  type: 'umum' | 'vip'; category: string
+  phone: string; notes: string
+  opened: boolean; openedAt: string | null; createdAt: string
 }
-
 export type RSVP = {
-  id: string
-  name: string
-  attendance: 'hadir' | 'tidak'
-  createdAt: string
+  id: string; name: string
+  attendance: 'hadir' | 'tidak'; createdAt: string
 }
-
 export type Doa = {
-  id: string
-  name: string
-  message: string
-  createdAt: string
+  id: string; name: string; message: string; createdAt: string
 }
-
 export type ReactionType = 'love' | 'suka' | 'senyum'
-
 export type Reaction = {
-  id: string
-  doaId: string
-  name: string
-  type: ReactionType
-  createdAt: string
-}
-
-type DB = {
-  guests: Guest[]
-  rsvps: RSVP[]
-  doas: Doa[]
-  reactions: Reaction[]
-}
-
-/* ── File path ── */
-
-const DB_PATH = path.join(process.cwd(), 'data', 'db.json')
-
-/* ── DB helpers ── */
-
-function readDB(): DB {
-  try {
-    if (!fs.existsSync(DB_PATH)) {
-      const initial: DB = { guests: defaultGuests(), rsvps: defaultRsvps(), doas: defaultDoas(), reactions: [] }
-      writeDB(initial)
-      return initial
-    }
-    const raw = fs.readFileSync(DB_PATH, 'utf-8')
-    const parsed = JSON.parse(raw) as DB
-    if (!parsed.doas) parsed.doas = defaultDoas()
-    // migrate: pastikan field reactions ada kalau db lama belum punya
-    if (!parsed.reactions) parsed.reactions = []
-    return parsed
-  } catch {
-    const initial: DB = { guests: defaultGuests(), rsvps: defaultRsvps(), doas: defaultDoas(), reactions: [] }
-    writeDB(initial)
-    return initial
-  }
-}
-
-function writeDB(data: DB): void {
-  const dir = path.dirname(DB_PATH)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true })
-  }
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8')
+  id: string; doaId: string; name: string
+  type: ReactionType; createdAt: string
 }
 
 /* ── Helpers ── */
-
-function slugify(name: string, suffix: string): string {
-  return (
-    name
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-') +
-    '-' +
-    suffix
-  )
-}
-
 function uid(): string {
   return Math.random().toString(36).slice(2, 8)
 }
-
-/* ── Default seed data ── */
-
-function defaultGuests(): Guest[] {
-  return [
-    {
-      id: '1',
-      name: 'Budi Santoso',
-      slug: 'budi-santoso-ab1',
-      type: 'vip',
-      category: 'Keluarga',
-      phone: '6281234567890',
-      notes: '',
-      opened: false,
-      openedAt: null,
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: '2',
-      name: 'Dewi Lestari',
-      slug: 'dewi-lestari-cd2',
-      type: 'umum',
-      category: 'Teman',
-      phone: '6289876543210',
-      notes: '',
-      opened: false,
-      openedAt: null,
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: '3',
-      name: 'Rudi Hermawan',
-      slug: 'rudi-hermawan-ef3',
-      type: 'umum',
-      category: 'Rekan Kerja',
-      phone: '6285551234567',
-      notes: '',
-      opened: false,
-      openedAt: null,
-      createdAt: new Date().toISOString(),
-    },
-  ]
+function slugify(name: string, suffix: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim()
+    .replace(/\s+/g, '-') + '-' + suffix
 }
 
-function defaultRsvps(): RSVP[] {
-  return [
-    { id: 'r1', name: 'Budi Santoso', attendance: 'hadir', createdAt: new Date().toISOString() },
-    { id: 'r2', name: 'Sari Indah',   attendance: 'hadir', createdAt: new Date().toISOString() },
-    { id: 'r3', name: 'Reza Pratama', attendance: 'tidak', createdAt: new Date().toISOString() },
-  ]
+/* ══════════════════════════════════════════
+   RSVP
+══════════════════════════════════════════ */
+export async function getAllRsvp(): Promise<RSVP[]> {
+  const data = await redis.get<RSVP[]>('rsvps')
+  return Array.isArray(data) ? data : []
 }
-
-function defaultDoas(): Doa[] {
-  return [
-    { id: 'd1', name: 'Budi Santoso', message: 'Selamat menempuh hidup baru, semoga selalu bahagia dan diberkahi! 🎉', createdAt: new Date().toISOString() },
-    { id: 'd2', name: 'Sari Indah',   message: "Barakallahu lakuma wa baraka alaikuma wa jama'a bainakuma fi khair 💍", createdAt: new Date().toISOString() },
-    { id: 'd3', name: 'Reza Pratama', message: 'Mohon maaf tidak bisa hadir, semoga acaranya berjalan lancar 🙏', createdAt: new Date().toISOString() },
-  ]
-}
-
-/* ══════════════════════════════════════════════
-   GUEST FUNCTIONS
-══════════════════════════════════════════════ */
-
-export function getAll(): Guest[] {
-  return readDB().guests
-}
-
-export function getStats() {
-  const guests = getAll()
-  return {
-    total: guests.length,
-    opened: guests.filter(g => g.opened).length,
-    vip: guests.filter(g => g.type === 'vip').length,
-  }
-}
-
-export function getBySlug(slug: string): Guest | undefined {
-  return getAll().find(g => g.slug === slug)
-}
-
-export function getById(id: string): Guest | undefined {
-  return getAll().find(g => g.id === id)
-}
-
-export function addGuest(data: {
-  name: string
-  type?: string
-  category?: string
-  phone?: string
-  notes?: string
-}): Guest {
-  const db = readDB()
-  const id = uid()
-  const slug = slugify(data.name, uid())
-  const guest: Guest = {
-    id, slug,
-    name: data.name,
-    type: data.type === 'vip' ? 'vip' : 'umum',
-    category: data.category || '',
-    phone: data.phone || '',
-    notes: data.notes || '',
-    opened: false,
-    openedAt: null,
-    createdAt: new Date().toISOString(),
-  }
-  db.guests.push(guest)
-  writeDB(db)
-  return guest
-}
-
-export function importGuests(
-  rows: Array<{ name: string; type?: string; category?: string; phone?: string }>
-): number {
-  const db = readDB()
-  let count = 0
-  for (const row of rows) {
-    if (!row.name?.trim()) continue
-    const exists = db.guests.find(g => g.name.toLowerCase() === row.name.toLowerCase())
-    if (exists) continue
-    const id = uid()
-    const slug = slugify(row.name, uid())
-    db.guests.push({
-      id, slug,
-      name: row.name,
-      type: row.type === 'vip' ? 'vip' : 'umum',
-      category: row.category || '',
-      phone: row.phone || '',
-      notes: '',
-      opened: false,
-      openedAt: null,
-      createdAt: new Date().toISOString(),
-    })
-    count++
-  }
-  writeDB(db)
-  return count
-}
-
-export function markOpened(slug: string): void {
-  const db = readDB()
-  const g = db.guests.find(g => g.slug === slug)
-  if (g && !g.opened) {
-    g.opened = true
-    g.openedAt = new Date().toISOString()
-    writeDB(db)
-  }
-}
-
-export function deleteGuest(id: string): boolean {
-  const db = readDB()
-  const idx = db.guests.findIndex(g => g.id === id)
-  if (idx === -1) return false
-  db.guests.splice(idx, 1)
-  writeDB(db)
-  return true
-}
-
-/* ══════════════════════════════════════════════
-   RSVP FUNCTIONS — hanya konfirmasi kehadiran
-══════════════════════════════════════════════ */
-
-export function getAllRsvp(): RSVP[] {
-  return readDB().rsvps
-}
-
-export function getRsvpStats() {
-  const rsvps = getAllRsvp()
+export async function getRsvpStats() {
+  const rsvps = await getAllRsvp()
   return {
     total: rsvps.length,
     hadir: rsvps.filter(r => r.attendance === 'hadir').length,
     tidak: rsvps.filter(r => r.attendance === 'tidak').length,
   }
 }
-
-export function addRsvp(data: { name: string; attendance: 'hadir' | 'tidak' }): RSVP {
-  const db = readDB()
-  const rsvp: RSVP = {
-    id: uid(),
-    name: data.name,
-    attendance: data.attendance,
-    createdAt: new Date().toISOString(),
-  }
-  db.rsvps.push(rsvp)
-  writeDB(db)
+export async function addRsvp(data: { name: string; attendance: 'hadir' | 'tidak' }): Promise<RSVP> {
+  const rsvps = await getAllRsvp()
+  const rsvp: RSVP = { id: uid(), name: data.name, attendance: data.attendance, createdAt: new Date().toISOString() }
+  await redis.set('rsvps', [...rsvps, rsvp])
   return rsvp
 }
-
-export function deleteRsvp(id: string): boolean {
-  const db = readDB()
-  const idx = db.rsvps.findIndex(r => r.id === id)
-  if (idx === -1) return false
-  db.rsvps.splice(idx, 1)
-  writeDB(db)
+export async function deleteRsvp(id: string): Promise<boolean> {
+  const rsvps = await getAllRsvp()
+  const filtered = rsvps.filter(r => r.id !== id)
+  if (filtered.length === rsvps.length) return false
+  await redis.set('rsvps', filtered)
   return true
 }
 
-/* ══════════════════════════════════════════════
-   DOA FUNCTIONS — ucapan & doa, tanpa attendance
-══════════════════════════════════════════════ */
-
-export function getAllDoa(): Doa[] {
-  return readDB().doas
+/* ══════════════════════════════════════════
+   DOA
+══════════════════════════════════════════ */
+export async function getAllDoa(): Promise<Doa[]> {
+  const data = await redis.get<Doa[]>('doas')
+  return Array.isArray(data) ? data : []
 }
-
-export function getDoaStats() {
-  return { total: getAllDoa().length }
+export async function getDoaStats() {
+  return { total: (await getAllDoa()).length }
 }
-
-export function addDoa(data: { name: string; message: string }): Doa {
-  const db = readDB()
-  const doa: Doa = {
-    id: uid(),
-    name: data.name,
-    message: data.message,
-    createdAt: new Date().toISOString(),
-  }
-  db.doas.push(doa)
-  writeDB(db)
+export async function addDoa(data: { name: string; message: string }): Promise<Doa> {
+  const doas = await getAllDoa()
+  const doa: Doa = { id: uid(), name: data.name, message: data.message, createdAt: new Date().toISOString() }
+  await redis.set('doas', [...doas, doa])
   return doa
 }
-
-export function deleteDoa(id: string): boolean {
-  const db = readDB()
-  const idx = db.doas.findIndex(d => d.id === id)
-  if (idx === -1) return false
-  db.doas.splice(idx, 1)
-  writeDB(db)
+export async function deleteDoa(id: string): Promise<boolean> {
+  const doas = await getAllDoa()
+  const filtered = doas.filter(d => d.id !== id)
+  if (filtered.length === doas.length) return false
+  await redis.set('doas', filtered)
   return true
 }
 
-/* ══════════════════════════════════════════════
-   REACTION FUNCTIONS
-══════════════════════════════════════════════ */
-
-export function getReactionsByDoaId(doaId: string): Reaction[] {
-  return readDB().reactions.filter(r => r.doaId === doaId)
+/* ══════════════════════════════════════════
+   REACTIONS
+══════════════════════════════════════════ */
+export async function getAllReactions(): Promise<Reaction[]> {
+  const data = await redis.get<Reaction[]>('reactions')
+  return Array.isArray(data) ? data : []
 }
-
-export function getAllReactions(): Reaction[] {
-  return readDB().reactions
-}
-
-export function toggleReaction(data: {
-  doaId: string
-  name: string
-  type: ReactionType
-}): { action: 'added' | 'removed'; reaction?: Reaction } {
-  const db = readDB()
-  const existing = db.reactions.find(
+export async function toggleReaction(data: { doaId: string; name: string; type: ReactionType }) {
+  const reactions = await getAllReactions()
+  const existing = reactions.find(
     r => r.doaId === data.doaId && r.name === data.name && r.type === data.type
   )
   if (existing) {
-    // toggle off — hapus reaction
-    db.reactions = db.reactions.filter(r => r.id !== existing.id)
-    writeDB(db)
-    return { action: 'removed' }
+    await redis.set('reactions', reactions.filter(r => r.id !== existing.id))
+    return { action: 'removed' as const }
   }
-  // toggle on — tambah reaction
-  const reaction: Reaction = {
-    id: uid(),
-    doaId: data.doaId,
-    name: data.name,
-    type: data.type,
+  const reaction: Reaction = { id: uid(), doaId: data.doaId, name: data.name, type: data.type, createdAt: new Date().toISOString() }
+  await redis.set('reactions', [...reactions, reaction])
+  return { action: 'added' as const, reaction }
+}
+
+/* ══════════════════════════════════════════
+   GUESTS
+══════════════════════════════════════════ */
+export async function getAll(): Promise<Guest[]> {
+  const data = await redis.get<Guest[]>('guests')
+  return Array.isArray(data) ? data : []
+}
+export async function getBySlug(slug: string) {
+  return (await getAll()).find(g => g.slug === slug)
+}
+export async function getById(id: string) {
+  return (await getAll()).find(g => g.id === id)
+}
+export async function getStats() {
+  const guests = await getAll()
+  return {
+    total: guests.length,
+    opened: guests.filter(g => g.opened).length,
+    vip: guests.filter(g => g.type === 'vip').length,
+  }
+}
+export async function addGuest(data: { name: string; type?: string; category?: string; phone?: string; notes?: string }): Promise<Guest> {
+  const guests = await getAll()
+  const id = uid()
+  const guest: Guest = {
+    id, slug: slugify(data.name, uid()),
+    name: data.name, type: data.type === 'vip' ? 'vip' : 'umum',
+    category: data.category || '', phone: data.phone || '',
+    notes: data.notes || '', opened: false, openedAt: null,
     createdAt: new Date().toISOString(),
   }
-  db.reactions.push(reaction)
-  writeDB(db)
-  return { action: 'added', reaction }
+  await redis.set('guests', [...guests, guest])
+  return guest
+}
+export async function markOpened(slug: string): Promise<void> {
+  const guests = await getAll()
+  const g = guests.find(g => g.slug === slug)
+  if (g && !g.opened) {
+    g.opened = true
+    g.openedAt = new Date().toISOString()
+    await redis.set('guests', guests)
+  }
+}
+export async function deleteGuest(id: string): Promise<boolean> {
+  const guests = await getAll()
+  const filtered = guests.filter(g => g.id !== id)
+  if (filtered.length === guests.length) return false
+  await redis.set('guests', filtered)
+  return true
+}
+export async function importGuests(rows: Array<{ name: string; type?: string; category?: string; phone?: string }>): Promise<number> {
+  const guests = await getAll()
+  let count = 0
+  for (const row of rows) {
+    if (!row.name?.trim()) continue
+    if (guests.find(g => g.name.toLowerCase() === row.name.toLowerCase())) continue
+    const id = uid()
+    guests.push({
+      id, slug: slugify(row.name, uid()), name: row.name,
+      type: row.type === 'vip' ? 'vip' : 'umum',
+      category: row.category || '', phone: row.phone || '',
+      notes: '', opened: false, openedAt: null,
+      createdAt: new Date().toISOString(),
+    })
+    count++
+  }
+  await redis.set('guests', guests)
+  return count
 }
