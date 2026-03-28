@@ -11,7 +11,7 @@ export default function SectionHeader() {
   const { groom, bride } = weddingConfig
 
   return (
-    <div style={{ padding: '0 20px', paddingTop: 52, paddingBottom: 20 }} className="fade-up">
+    <div style={{ padding: '0 20px', paddingTop: 38, paddingBottom: 20 }} className="fade-up">
       <p style={S.small}>Undangan Pernikahan</p>
       <h1 style={{ ...S.h2, marginTop: 4 }}>{groom.name} &amp; {bride.name}</h1>
     </div>
