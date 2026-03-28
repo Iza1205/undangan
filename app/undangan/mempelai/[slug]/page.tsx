@@ -41,17 +41,45 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
 
   return (
     <div className="app-shell">
+      <style>{`
+        @keyframes hero-in {
+          from { opacity: 0; transform: scale(1.06); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+
+        .hero-img    { animation: hero-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
+        .hero-back   { animation: fade-in 0.4s ease 0.2s both; }
+        .hero-name   { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.25s both; }
+
+        .card-1 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.35s both; }
+        .card-2 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.45s both; }
+        .card-3 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.55s both; }
+        .card-4 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.65s both; }
+        .card-5 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.75s both; }
+      `}</style>
+
       <div className="page-content" style={{ paddingBottom: 40 }}>
 
         {/* Hero foto */}
-        <div style={{ position: 'relative', height: 340 }}>
-          <Image
-            src={person.photo}
-            alt={person.name}
-            fill
-            sizes="100vw"
-            style={{ objectFit: 'cover', objectPosition: 'center top' }}
-          />
+        <div style={{ position: 'relative', height: 340, overflow: 'hidden' }}>
+          <div className="hero-img" style={{ position: 'absolute', inset: 0 }}>
+            <Image
+              src={person.photo}
+              alt={person.name}
+              fill
+              sizes="100vw"
+              style={{ objectFit: 'cover', objectPosition: 'center top' }}
+            />
+          </div>
+
           {/* Gradient overlay */}
           <div style={{
             position: 'absolute', inset: 0,
@@ -60,6 +88,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
 
           {/* Back button */}
           <button
+            className="hero-back"
             onClick={() => router.back()}
             style={{
               position: 'absolute', top: 16, left: 16,
@@ -80,7 +109,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
           </button>
 
           {/* Name overlay */}
-          <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
+          <div className="hero-name" style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
             <p style={{
               fontSize: 10, fontWeight: 600,
               color: 'rgba(255,255,255,0.65)',
@@ -109,7 +138,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
         <div style={{ padding: '16px 20px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
           {/* Orang tua */}
-          <div className="card" style={{ padding: '14px 16px' }}>
+          <div className="card card-1" style={{ padding: '14px 16px' }}>
             <p style={{
               fontSize: 10, fontWeight: 600,
               color: 'var(--ink-3)',
@@ -133,7 +162,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
           </div>
 
           {/* About */}
-          <div className="card" style={{ padding: '14px 16px' }}>
+          <div className="card card-2" style={{ padding: '14px 16px' }}>
             <p style={{
               fontSize: 10, fontWeight: 600,
               color: 'var(--ink-3)',
@@ -149,7 +178,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
           </div>
 
           {/* Hobi & Kepribadian */}
-          <div className="card" style={{ padding: '14px 16px' }}>
+          <div className="card card-3" style={{ padding: '14px 16px' }}>
             <p style={{
               fontSize: 10, fontWeight: 600,
               color: 'var(--ink-3)',
@@ -178,7 +207,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
           </div>
 
           {/* Quote */}
-          <div className="card" style={{ padding: '16px', position: 'relative', overflow: 'hidden' }}>
+          <div className="card card-4" style={{ padding: '16px', position: 'relative', overflow: 'hidden' }}>
             <Quote
               size={48}
               style={{
@@ -208,7 +237,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
           </div>
 
           {/* Instagram */}
-          <div className="card" style={{ padding: '14px 16px' }}>
+          <div className="card card-5" style={{ padding: '14px 16px' }}>
             <p style={{
               fontSize: 10, fontWeight: 600,
               color: 'var(--ink-3)',

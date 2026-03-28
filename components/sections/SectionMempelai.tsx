@@ -41,16 +41,17 @@ type PersonCardProps = {
   instagram: string
   slug: string
   q: string
+  animationDelay?: string
 }
 
-function PersonCard({ photo, name, father, mother, instagram, slug, q }: PersonCardProps) {
+function PersonCard({ photo, name, father, mother, instagram, slug, q, animationDelay = '0s' }: PersonCardProps) {
   return (
     <Link
       href={`/undangan/mempelai/${slug}${q}`}
       style={{ textDecoration: 'none', display: 'block' }}
     >
       <div
-        className="card"
+        className="card mempelai-card"
         style={{
           padding: '18px 14px',
           textAlign: 'center',
@@ -58,13 +59,7 @@ function PersonCard({ photo, name, father, mother, instagram, slug, q }: PersonC
           flexDirection: 'column',
           alignItems: 'center',
           cursor: 'pointer',
-          transition: 'transform 0.15s ease',
-        }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'
+          animationDelay,
         }}
       >
         {/* Photo */}
@@ -131,6 +126,19 @@ function PersonCard({ photo, name, father, mother, instagram, slug, q }: PersonC
           @{instagram}
         </a>
       </div>
+
+      {/* CSS animasi loop */}
+      <style>{`
+        .mempelai-card {
+          animation: mempelai-breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes mempelai-breathe {
+          0%   { transform: scale(1); }
+          50%  { transform: scale(1.04); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
     </Link>
   )
 }
@@ -144,6 +152,7 @@ export default function SectionMempelai({ q }: { q: string }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 10, alignItems: 'stretch' }}>
 
+        {/* Card kiri — animasi mulai langsung */}
         <PersonCard
           photo="/mempelai/laki.png"
           name={groom.name}
@@ -152,14 +161,20 @@ export default function SectionMempelai({ q }: { q: string }) {
           instagram={INSTAGRAM.groom}
           slug={groom.slug}
           q={q}
+          animationDelay="0s"
         />
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '8px 0' }}>
+        {/* Divider + cincin tengah */}
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          justifyContent: 'center', gap: 6, padding: '8px 0',
+        }}>
           <div style={{ width: 1, flex: 1, background: 'var(--border)' }} />
-          <span style={{ fontSize: 16 }}>💍</span>
+          <span style={{ fontSize: 16, animation: 'mempelai-breathe 3s ease-in-out infinite', animationDelay: '1.5s', display: 'inline-block' }}>💍</span>
           <div style={{ width: 1, flex: 1, background: 'var(--border)' }} />
         </div>
 
+        {/* Card kanan — animasi mulai offset 1.5s biar bergantian */}
         <PersonCard
           photo="/mempelai/cewe.png"
           name={bride.name}
@@ -168,6 +183,7 @@ export default function SectionMempelai({ q }: { q: string }) {
           instagram={INSTAGRAM.bride}
           slug={bride.slug}
           q={q}
+          animationDelay="1.5s"
         />
 
       </div>
