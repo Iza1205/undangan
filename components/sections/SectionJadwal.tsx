@@ -36,17 +36,21 @@ export default function SectionJadwal({ q }: { q: string }) {
         </Link>
       </div>
 
-      {/* Event cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Single combined card */}
+      <div
+        className="card"
+        style={{
+          padding: 0,
+          overflow: 'hidden',
+        }}
+      >
         {events.map((ev, i) => (
           <div
             key={ev.id}
-            className="card"
             style={{
-              padding: 0,
-              overflow: 'hidden',
               display: 'flex',
               alignItems: 'stretch',
+              borderBottom: i < events.length - 1 ? '1px solid var(--border)' : 'none',
             }}
           >
             {/* Left color bar */}
@@ -57,10 +61,10 @@ export default function SectionJadwal({ q }: { q: string }) {
             }} />
 
             {/* Content */}
-            <div style={{ flex: 1, padding: '16px 16px 16px 18px' }}>
+            <div style={{ flex: 1, padding: '14px 16px 14px 18px' }}>
 
               {/* Badge + number row */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span style={{
                   fontSize: 10, fontWeight: 700,
                   color: ev.color,
@@ -85,7 +89,7 @@ export default function SectionJadwal({ q }: { q: string }) {
               </div>
 
               {/* Date row */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 5 }}>
                 <CalendarDays size={13} color="var(--ink-3)" strokeWidth={1.8} />
                 <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.02em', lineHeight: 1.3 }}>
                   {ev.date}

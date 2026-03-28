@@ -24,7 +24,7 @@ export default function UndanganHome() {
         <SectionHeader />
         <SectionHero     q={q} />
         <SectionKepada   guest={guest} />
-        <SectionMempelai />
+        <SectionMempelai q={q} />
         <SectionJadwal   q={q} />
         <SectionLokasi   q={q} />
         <SectionGallery />

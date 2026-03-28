@@ -2,6 +2,8 @@
 
 import { weddingConfig } from '@/lib/weddingData'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
 
 const S: Record<string, React.CSSProperties> = {
   label: { fontSize: 11, fontWeight: 500, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' as const },
@@ -37,66 +39,103 @@ type PersonCardProps = {
   father: string
   mother: string
   instagram: string
+  slug: string
+  q: string
 }
 
-function PersonCard({ photo, name, father, mother, instagram }: PersonCardProps) {
+function PersonCard({ photo, name, father, mother, instagram, slug, q }: PersonCardProps) {
   return (
-    <div className="card" style={{ padding: '18px 14px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-
-      {/* Photo */}
-      <div style={{
-        width: 72, height: 72, borderRadius: 16,
-        overflow: 'hidden', marginBottom: 10,
-        position: 'relative', flexShrink: 0,
-      }}>
-        <Image
-          src={photo}
-          alt={name}
-          fill
-          sizes="72px"
-          style={{ objectFit: 'cover', objectPosition: 'center top' }}
-        />
-      </div>
-
-      {/* Name */}
-      <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.02em', lineHeight: 1.3, marginBottom: 8 }}>
-        {name}
-      </p>
-
-      {/* Parents */}
-      <p style={{ fontSize: 10, color: 'var(--ink-3)', lineHeight: 1.6, marginBottom: 12 }}>
-        {father}<br />& {mother}
-      </p>
-
-      {/* Divider */}
-      <div style={{ width: '100%', height: 1, background: 'var(--border)', marginBottom: 12 }} />
-
-      {/* Instagram button */}
-      <a
-        href={`https://instagram.com/${instagram}`}
-        target="_blank"
-        rel="noopener noreferrer"
+    <Link
+      href={`/undangan/mempelai/${slug}${q}`}
+      style={{ textDecoration: 'none', display: 'block' }}
+    >
+      <div
+        className="card"
         style={{
-          display: 'inline-flex', alignItems: 'center', gap: 5,
-          fontSize: 10, fontWeight: 700,
-          color: '#dc2743',
-          background: '#fff0f3',
-          padding: '5px 10px',
-          borderRadius: 20,
-          textDecoration: 'none',
-          letterSpacing: '0.01em',
-          border: '1px solid #fbc8d4',
+          padding: '18px 14px',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          cursor: 'pointer',
+          transition: 'transform 0.15s ease',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-2px)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'
         }}
       >
-        <IgIcon size={13} />
-        @{instagram}
-      </a>
+        {/* Photo */}
+        <div style={{
+          width: 72, height: 72, borderRadius: 16,
+          overflow: 'hidden', marginBottom: 10,
+          position: 'relative', flexShrink: 0,
+        }}>
+          <Image
+            src={photo}
+            alt={name}
+            fill
+            sizes="72px"
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
+          />
+        </div>
 
-    </div>
+        {/* Name */}
+        <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: '-0.02em', lineHeight: 1.3, marginBottom: 8 }}>
+          {name}
+        </p>
+
+        {/* Parents */}
+        <p style={{ fontSize: 10, color: 'var(--ink-3)', lineHeight: 1.6, marginBottom: 10 }}>
+          {father}<br />& {mother}
+        </p>
+
+        {/* Lihat profil */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          fontSize: 10, fontWeight: 700,
+          color: 'var(--accent)',
+          background: 'var(--accent-bg)',
+          padding: '4px 10px',
+          borderRadius: 20,
+          marginBottom: 12,
+        }}>
+          Lihat profil
+          <ArrowUpRight size={11} strokeWidth={2.5} />
+        </div>
+
+        {/* Divider */}
+        <div style={{ width: '100%', height: 1, background: 'var(--border)', marginBottom: 12 }} />
+
+        {/* Instagram button */}
+        <a
+          href={`https://instagram.com/${instagram}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={e => e.stopPropagation()}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            fontSize: 10, fontWeight: 700,
+            color: '#dc2743',
+            background: '#fff0f3',
+            padding: '5px 10px',
+            borderRadius: 20,
+            textDecoration: 'none',
+            letterSpacing: '0.01em',
+            border: '1px solid #fbc8d4',
+          }}
+        >
+          <IgIcon size={13} />
+          @{instagram}
+        </a>
+      </div>
+    </Link>
   )
 }
 
-export default function SectionMempelai() {
+export default function SectionMempelai({ q }: { q: string }) {
   const { groom, bride } = weddingConfig
 
   return (
@@ -111,6 +150,8 @@ export default function SectionMempelai() {
           father={groom.father}
           mother={groom.mother}
           instagram={INSTAGRAM.groom}
+          slug={groom.slug}
+          q={q}
         />
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '8px 0' }}>
@@ -125,6 +166,8 @@ export default function SectionMempelai() {
           father={bride.father}
           mother={bride.mother}
           instagram={INSTAGRAM.bride}
+          slug={bride.slug}
+          q={q}
         />
 
       </div>
