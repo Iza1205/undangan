@@ -10,10 +10,10 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
 
   const items = [
     { icon: Home,     label: 'Beranda', path: `/undangan/home${q}`,        match: /^\/undangan(\/home)?$/ },
-    { icon: Calendar, label: 'Jadwal',  path: `/undangan/jadwal${q}`,      match: /^\/undangan\/jadwal/ },
+    { icon: Heart,    label: 'Cerita',  path: `/undangan/cerita${q}`,      match: /^\/undangan\/cerita/ },
     { icon: null,     label: 'Doa',     path: `/undangan/doa${q}`,         match: /^\/undangan\/doa/ },
     { icon: Image,    label: 'Gallery', path: `/undangan/gallery${q}`,     match: /^\/undangan\/gallery/ },
-    { icon: Heart,    label: 'Cerita',  path: `/undangan/cerita${q}`,      match: /^\/undangan\/cerita/ },
+    { icon: Calendar, label: 'Jadwal',  path: `/undangan/jadwal${q}`,      match: /^\/undangan\/jadwal/ },
   ]
 
   return (

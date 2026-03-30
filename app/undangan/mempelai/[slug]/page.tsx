@@ -2,9 +2,11 @@
 
 import { weddingConfig } from '@/lib/weddingData'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Quote } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
+import BottomNav from '@/components/BottomNav'
 
 function IgIcon({ size = 14 }: { size?: number }) {
   return (
@@ -25,8 +27,10 @@ function IgIcon({ size = 14 }: { size?: number }) {
   )
 }
 
-export default function MempelaiDetailPage({ params }: { params: { slug: string } }) {
+function MempelaiDetailInner({ params }: { params: { slug: string } }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const guest = searchParams.get('untuk') || undefined
   const { groom, bride } = weddingConfig
 
   const person = groom.slug === params.slug
@@ -66,7 +70,7 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
         .card-5 { animation: slide-up 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) 0.75s both; }
       `}</style>
 
-      <div className="page-content" style={{ paddingBottom: 40 }}>
+      <div className="page-content" style={{ paddingBottom: 100 }}>
 
         {/* Hero foto */}
         <div style={{ position: 'relative', height: 340, overflow: 'hidden' }}>
@@ -269,6 +273,16 @@ export default function MempelaiDetailPage({ params }: { params: { slug: string 
 
         </div>
       </div>
+
+      <BottomNav guestName={guest} />
     </div>
+  )
+}
+
+export default function MempelaiDetailPage({ params }: { params: { slug: string } }) {
+  return (
+    <Suspense fallback={null}>
+      <MempelaiDetailInner params={params} />
+    </Suspense>
   )
 }

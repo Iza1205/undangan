@@ -63,7 +63,7 @@ export default function SectionHero({ q }: { q: string }) {
 
           <div style={{ marginTop: 20 }}>
             <Link
-              href={`/undangan/jadwal${q}`}
+              href={`/undangan/doa${q}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -80,7 +80,7 @@ export default function SectionHero({ q }: { q: string }) {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
               }}
             >
-              Lihat Jadwal & Lokasi <ChevronRight size={16} />
+              Konfirmasi Kehadiran Anda <ChevronRight size={16} />
             </Link>
           </div>
         </div>

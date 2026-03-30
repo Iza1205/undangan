@@ -2,6 +2,7 @@
 
 import { weddingConfig } from '@/lib/weddingData'
 import { MapPin, ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
 
 const S: Record<string, React.CSSProperties> = {
   label: { fontSize: 11, fontWeight: 500, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' as const },
@@ -9,6 +10,10 @@ const S: Record<string, React.CSSProperties> = {
 
 export default function SectionLokasi({ q }: { q: string }) {
   const { venue } = weddingConfig
+  const [mapOpen, setMapOpen] = useState(false)
+
+  const mapsEmbedUrl = venue.mapsEmbed
+    ?? `https://maps.google.com/maps?q=${encodeURIComponent(venue.name + ' ' + venue.address)}&output=embed`
 
   return (
     <div style={{ padding: '0 20px', marginTop: 16, paddingBottom: 8 }} className="fade-up fade-up-delay-4">
@@ -76,6 +81,61 @@ export default function SectionLokasi({ q }: { q: string }) {
 
         {/* Divider */}
         <div style={{ height: 1, background: 'var(--border)', margin: '16px 20px 0' }} />
+
+        {/* Toggle map button */}
+        <button
+          onClick={() => setMapOpen(prev => !prev)}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 20px',
+            width: '100%',
+            background: 'none',
+            border: 'none',
+            borderBottom: mapOpen ? '1px solid var(--border)' : 'none',
+            cursor: 'pointer',
+          }}
+        >
+          <span style={{
+            fontSize: 12, fontWeight: 600,
+            color: 'var(--accent)',
+            letterSpacing: '-0.01em',
+          }}>
+            {mapOpen ? 'Sembunyikan Peta' : 'Lihat Peta'}
+          </span>
+          <div style={{
+            width: 28, height: 28, borderRadius: 8,
+            background: 'var(--accent-bg)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'transform 0.3s ease',
+            transform: mapOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </div>
+        </button>
+
+        {/* Embedded map */}
+        <div style={{
+          height: mapOpen ? 220 : 0,
+          overflow: 'hidden',
+          transition: 'height 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+        }}>
+          {mapOpen && (
+            <iframe
+              src={mapsEmbedUrl}
+              width="100%"
+              height="220"
+              style={{ border: 'none', display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          )}
+        </div>
+
+        {/* Divider before open maps */}
+        <div style={{ height: 1, background: 'var(--border)', margin: '0 20px' }} />
 
         {/* Footer: open maps button */}
         <a

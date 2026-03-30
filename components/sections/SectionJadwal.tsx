@@ -1,8 +1,7 @@
 'use client'
 
 import { weddingConfig } from '@/lib/weddingData'
-import { Clock, CalendarDays, ArrowUpRight } from 'lucide-react'
-import Link from 'next/link'
+import { Clock, CalendarDays } from 'lucide-react'
 
 const S: Record<string, React.CSSProperties> = {
   label: { fontSize: 11, fontWeight: 500, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' as const },
@@ -15,25 +14,8 @@ export default function SectionJadwal({ q }: { q: string }) {
     <div style={{ padding: '0 20px', marginTop: 16 }} className="fade-up fade-up-delay-3">
 
       {/* Header row */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+      <div style={{ marginBottom: 12 }}>
         <p style={S.label}>Jadwal Acara</p>
-        <Link
-          href={`/undangan/jadwal${q}`}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            fontSize: 11, fontWeight: 700,
-            color: 'var(--accent)',
-            background: 'var(--accent-bg)',
-            padding: '5px 12px 5px 10px',
-            borderRadius: 20,
-            textDecoration: 'none',
-            letterSpacing: '0.01em',
-          }}
-        >
-          <CalendarDays size={12} strokeWidth={2.2} />
-          Lihat semua
-          <ArrowUpRight size={11} strokeWidth={2.5} />
-        </Link>
       </div>
 
       {/* Single combined card */}
