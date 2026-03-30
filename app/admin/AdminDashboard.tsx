@@ -3,16 +3,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import * as XLSX from 'xlsx'
 
-/* ── types ── */
 type Guest    = { id:string; name:string; slug:string; type:'umum'|'vip'; category:string; phone:string; notes:string; opened:boolean; openedAt:string|null; createdAt:string }
-type RSVP     = { id:string; name:string; attendance:'hadir'|'tidak'; createdAt:string }
+type RSVP     = { id:string; name:string; attendance:'hadir'|'tidak'; notes:string; createdAt:string }
 type Doa      = { id:string; name:string; message:string; createdAt:string }
 type Stats    = { total:number; opened:number; vip:number }
 type RsvpStats = { total:number; hadir:number; tidak:number }
 type DoaStats  = { total:number }
 type Tab      = 'guests'|'import'|'template'|'rsvp'|'doa'
 
-/* ── config ── */
 const BASE_URL = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
 const GROOM = process.env.NEXT_PUBLIC_GROOM_NAME ?? 'Ahmad'
 const BRIDE = process.env.NEXT_PUBLIC_BRIDE_NAME ?? 'Siti'
@@ -34,7 +32,6 @@ Atas kehadiran dan doa restunya, kami ucapkan terima kasih. 🙏
 
 _Keluarga Besar ${GROOM} & ${BRIDE}_`
 
-/* ── helpers ── */
 const invUrl = (slug:string) => `${BASE_URL}/invitation/${slug}`
 
 function buildMsg(tmpl:string, g:Guest) {
@@ -51,7 +48,6 @@ function waUrl(g:Guest, tmpl:string) {
   return phone ? `https://wa.me/${phone}?text=${msg}` : `https://wa.me/?text=${msg}`
 }
 
-/* ── design tokens ── */
 const T = {
   font:     "'Plus Jakarta Sans', sans-serif",
   bg:       '#F7F7F8',
@@ -78,7 +74,6 @@ function Tag({ children }: { children:React.ReactNode }) {
   return <code style={{ background:T.accentBg, color:T.accent, padding:'1px 7px', borderRadius:4, fontSize:12, fontFamily:'monospace' }}>{children}</code>
 }
 
-/* ══════════════════════════════════════════════ */
 export default function AdminDashboard() {
   const [guests, setGuests]             = useState<Guest[]>([])
   const [stats,  setStats]              = useState<Stats>({ total:0, opened:0, vip:0 })
@@ -104,30 +99,24 @@ export default function AdminDashboard() {
   const fetchGuests = useCallback(async () => {
     setLoading(true)
     try {
-      const r = await fetch('/api/guests')
-      const d = await r.json()
-      setGuests(d.guests ?? [])
-      setStats(d.stats ?? { total:0, opened:0, vip:0 })
+      const r = await fetch('/api/guests'); const d = await r.json()
+      setGuests(d.guests ?? []); setStats(d.stats ?? { total:0, opened:0, vip:0 })
     } catch(e){console.error(e)} finally{setLoading(false)}
   }, [])
 
   const fetchRsvp = useCallback(async () => {
     setRsvpLoading(true)
     try {
-      const r = await fetch('/api/rsvp')
-      const d = await r.json()
-      setRsvps(d.rsvps ?? [])
-      setRsvpStats(d.stats ?? { total:0, hadir:0, tidak:0 })
+      const r = await fetch('/api/rsvp'); const d = await r.json()
+      setRsvps(d.rsvps ?? []); setRsvpStats(d.stats ?? { total:0, hadir:0, tidak:0 })
     } catch(e){console.error(e)} finally{setRsvpLoading(false)}
   }, [])
 
   const fetchDoa = useCallback(async () => {
     setDoaLoading(true)
     try {
-      const r = await fetch('/api/doa')
-      const d = await r.json()
-      setDoas(d.doas ?? [])
-      setDoaStats(d.stats ?? { total:0 })
+      const r = await fetch('/api/doa'); const d = await r.json()
+      setDoas(d.doas ?? []); setDoaStats(d.stats ?? { total:0 })
     } catch(e){console.error(e)} finally{setDoaLoading(false)}
   }, [])
 
@@ -140,14 +129,11 @@ export default function AdminDashboard() {
     (fType==='all' || g.type===fType)
   )
 
-  const filteredRsvp = rsvps.filter(r =>
-    rsvpFilter === 'all' || r.attendance === rsvpFilter
-  )
+  const filteredRsvp = rsvps.filter(r => rsvpFilter === 'all' || r.attendance === rsvpFilter)
 
   const copy = async (text:string, key:string) => {
     await navigator.clipboard.writeText(text)
-    setCopied(key)
-    setTimeout(() => setCopied(null), 2000)
+    setCopied(key); setTimeout(() => setCopied(null), 2000)
   }
 
   const handleAdd = async () => {
@@ -161,20 +147,17 @@ export default function AdminDashboard() {
 
   const handleDelete = async (id:string) => {
     if (!confirm('Hapus tamu ini?')) return
-    await fetch(`/api/guests/${id}`, { method:'DELETE' })
-    await fetchGuests()
+    await fetch(`/api/guests/${id}`, { method:'DELETE' }); await fetchGuests()
   }
 
   const handleDeleteRsvp = async (id:string) => {
     if (!confirm('Hapus konfirmasi ini?')) return
-    await fetch(`/api/rsvp?id=${id}`, { method:'DELETE' })
-    await fetchRsvp()
+    await fetch(`/api/rsvp?id=${id}`, { method:'DELETE' }); await fetchRsvp()
   }
 
   const handleDeleteDoa = async (id:string) => {
     if (!confirm('Hapus ucapan ini?')) return
-    await fetch(`/api/doa?id=${id}`, { method:'DELETE' })
-    await fetchDoa()
+    await fetch(`/api/doa?id=${id}`, { method:'DELETE' }); await fetchDoa()
   }
 
   const handleFile = (file:File) => {
@@ -184,10 +167,10 @@ export default function AdminDashboard() {
       const ws = wb.Sheets[wb.SheetNames[0]]
       const rows = XLSX.utils.sheet_to_json<Record<string,string>>(ws)
       setPreview(rows.map(r => ({
-        name:     String(r['Nama']||r['name']||'').trim(),
-        type:     String(r['Tipe']||r['type']||'umum').toLowerCase().trim(),
+        name: String(r['Nama']||r['name']||'').trim(),
+        type: String(r['Tipe']||r['type']||'umum').toLowerCase().trim(),
         category: String(r['Kategori']||r['category']||'').trim(),
-        phone:    String(r['No HP']||r['phone']||r['Telepon']||'').trim(),
+        phone: String(r['No HP']||r['phone']||r['Telepon']||'').trim(),
       })).filter(r => r.name))
     }
     reader.readAsBinaryString(file)
@@ -203,130 +186,77 @@ export default function AdminDashboard() {
   }
 
   const dlTemplate = () => {
-    const ws = XLSX.utils.aoa_to_sheet([
-      ['Nama','Tipe','Kategori','No HP'],
-      ['Budi Santoso','vip','Keluarga','08123456789'],
-      ['Siti Rahayu','umum','Teman','08234567890'],
-      ['Ahmad Fauzi','umum','Rekan Kerja','08345678901'],
-    ])
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, 'Tamu')
-    XLSX.writeFile(wb, 'template-undangan.xlsx')
+    const ws = XLSX.utils.aoa_to_sheet([['Nama','Tipe','Kategori','No HP'],['Budi Santoso','vip','Keluarga','08123456789'],['Siti Rahayu','umum','Teman','08234567890']])
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Tamu'); XLSX.writeFile(wb, 'template-undangan.xlsx')
   }
 
   const dlRsvpExcel = () => {
     const ws = XLSX.utils.aoa_to_sheet([
-      ['Nama','Kehadiran','Waktu'],
-      ...rsvps.map(r => [r.name, r.attendance==='hadir'?'Hadir':'Tidak Hadir', new Date(r.createdAt).toLocaleString('id-ID')])
+      ['Nama','Kehadiran','Keterangan','Waktu'],
+      ...rsvps.map(r => [r.name, r.attendance==='hadir'?'Hadir':'Tidak Hadir', r.notes || '—', new Date(r.createdAt).toLocaleString('id-ID')])
     ])
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, 'Konfirmasi')
-    XLSX.writeFile(wb, 'konfirmasi-kehadiran.xlsx')
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Konfirmasi'); XLSX.writeFile(wb, 'konfirmasi-kehadiran.xlsx')
   }
 
   const dlDoaExcel = () => {
-    const ws = XLSX.utils.aoa_to_sheet([
-      ['Nama','Ucapan & Doa','Waktu'],
-      ...doas.map(d => [d.name, d.message, new Date(d.createdAt).toLocaleString('id-ID')])
-    ])
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, 'Ucapan')
-    XLSX.writeFile(wb, 'ucapan-doa.xlsx')
+    const ws = XLSX.utils.aoa_to_sheet([['Nama','Ucapan & Doa','Waktu'], ...doas.map(d => [d.name, d.message, new Date(d.createdAt).toLocaleString('id-ID')])])
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Ucapan'); XLSX.writeFile(wb, 'ucapan-doa.xlsx')
   }
 
-  /* ── render ── */
   return (
     <div style={{ minHeight:'100vh', background:T.bg, fontFamily:T.font, color:T.ink1 }}>
       <div style={{ display:'flex', minHeight:'100vh' }}>
 
-        {/* ══ SIDEBAR ══ */}
-        <aside style={{
-          width:220, background:T.surface, borderRight:`1px solid ${T.border}`,
-          display:'flex', flexDirection:'column', padding:'24px 12px',
-          position:'sticky', top:0, height:'100vh', flexShrink:0,
-        }}>
+        {/* SIDEBAR */}
+        <aside style={{ width:220, background:T.surface, borderRight:`1px solid ${T.border}`, display:'flex', flexDirection:'column', padding:'24px 12px', position:'sticky', top:0, height:'100vh', flexShrink:0 }}>
           <div style={{ padding:'0 8px', marginBottom:28 }}>
             <div style={{ width:34, height:34, borderRadius:8, background:T.accent, display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, marginBottom:12 }}>💍</div>
             <p style={{ fontSize:15, fontWeight:700, color:T.ink1, letterSpacing:'-0.03em', lineHeight:1.2 }}>{GROOM} &amp; {BRIDE}</p>
             <p style={{ fontSize:10, fontWeight:500, color:T.ink3, letterSpacing:'0.08em', textTransform:'uppercase', marginTop:3 }}>Admin Panel</p>
           </div>
-
           <nav style={{ flex:1, display:'flex', flexDirection:'column', gap:2 }}>
             {([
-              { key:'guests',   icon:'👥', label:'Daftar Tamu',   badge: null },
-              { key:'rsvp',     icon:'✅', label:'Konfirmasi',    badge: rsvpStats.total > 0 ? rsvpStats.total : null },
-              { key:'doa',      icon:'🤲', label:'Ucapan & Doa',  badge: doaStats.total > 0 ? doaStats.total : null },
-              { key:'import',   icon:'📂', label:'Import Excel',  badge: null },
-              { key:'template', icon:'✉️',  label:'Template WA',   badge: null },
+              { key:'guests',   icon:'👥', label:'Daftar Tamu',  badge: null },
+              { key:'rsvp',     icon:'✅', label:'Konfirmasi',   badge: rsvpStats.total > 0 ? rsvpStats.total : null },
+              { key:'doa',      icon:'🤲', label:'Ucapan & Doa', badge: doaStats.total > 0 ? doaStats.total : null },
+              { key:'import',   icon:'📂', label:'Import Excel', badge: null },
+              { key:'template', icon:'✉️',  label:'Template WA',  badge: null },
             ] as {key:Tab;icon:string;label:string;badge:number|null}[]).map(item => (
               <button key={item.key} onClick={() => setTab(item.key)}
-                style={{
-                  display:'flex', alignItems:'center', gap:9, padding:'9px 10px',
-                  borderRadius:8, border:'none', cursor:'pointer', textAlign:'left',
-                  fontSize:13, fontWeight:500, fontFamily:T.font, transition:'all 0.15s',
-                  background: tab===item.key ? T.accentBg : 'transparent',
-                  color:      tab===item.key ? T.accent   : T.ink2,
-                }}
+                style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 10px', borderRadius:8, border:'none', cursor:'pointer', textAlign:'left', fontSize:13, fontWeight:500, fontFamily:T.font, transition:'all 0.15s', background: tab===item.key ? T.accentBg : 'transparent', color: tab===item.key ? T.accent : T.ink2 }}
               >
                 <span style={{ fontSize:14 }}>{item.icon}</span>
                 {item.label}
                 {item.badge !== null && (
-                  <span style={{ marginLeft:'auto', background:T.accent, color:'#fff', fontSize:10, fontWeight:700, padding:'1px 6px', borderRadius:10 }}>
-                    {item.badge}
-                  </span>
+                  <span style={{ marginLeft:'auto', background:T.accent, color:'#fff', fontSize:10, fontWeight:700, padding:'1px 6px', borderRadius:10 }}>{item.badge}</span>
                 )}
               </button>
             ))}
           </nav>
-
-          <a href="/undangan" target="_blank"
-            style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 10px', borderRadius:8, textDecoration:'none', fontSize:13, fontWeight:500, color:T.ink3, transition:'all 0.15s' }}
-          >
+          <a href="/undangan" target="_blank" style={{ display:'flex', alignItems:'center', gap:9, padding:'9px 10px', borderRadius:8, textDecoration:'none', fontSize:13, fontWeight:500, color:T.ink3 }}>
             <span style={{ fontSize:14 }}>↗</span> Preview
           </a>
         </aside>
 
-        {/* ══ MAIN ══ */}
+        {/* MAIN */}
         <main style={{ flex:1, padding:'28px 28px', overflowX:'auto', minWidth:0 }}>
-
-          {/* top bar */}
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:22 }}>
             <div>
               <h1 style={{ fontSize:18, fontWeight:700, color:T.ink1, letterSpacing:'-0.03em', margin:0 }}>
-                {tab==='guests' ? 'Daftar Tamu'
-                : tab==='import' ? 'Import Excel'
-                : tab==='rsvp' ? 'Konfirmasi Kehadiran'
-                : tab==='doa' ? 'Ucapan & Doa'
-                : 'Template WhatsApp'}
+                {tab==='guests' ? 'Daftar Tamu' : tab==='import' ? 'Import Excel' : tab==='rsvp' ? 'Konfirmasi Kehadiran' : tab==='doa' ? 'Ucapan & Doa' : 'Template WhatsApp'}
               </h1>
               <p style={{ fontSize:12, color:T.ink3, margin:'3px 0 0' }}>
-                {tab==='guests'  ? `${stats.total} tamu terdaftar`
-                : tab==='import' ? 'Upload file Excel untuk import massal'
-                : tab==='rsvp'   ? `${rsvpStats.hadir} hadir · ${rsvpStats.tidak} tidak hadir`
-                : tab==='doa'    ? `${doaStats.total} ucapan masuk`
-                : 'Kustomisasi pesan undangan'}
+                {tab==='guests' ? `${stats.total} tamu terdaftar` : tab==='import' ? 'Upload file Excel untuk import massal' : tab==='rsvp' ? `${rsvpStats.hadir} hadir · ${rsvpStats.tidak} tidak hadir` : tab==='doa' ? `${doaStats.total} ucapan masuk` : 'Kustomisasi pesan undangan'}
               </p>
             </div>
             <div style={{ display:'flex', gap:8 }}>
-              {tab==='import' && (
-                <button onClick={dlTemplate} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                  ↓ Template Excel
-                </button>
-              )}
-              {tab==='rsvp' && rsvps.length > 0 && (
-                <button onClick={dlRsvpExcel} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                  ↓ Export Excel
-                </button>
-              )}
-              {tab==='doa' && doas.length > 0 && (
-                <button onClick={dlDoaExcel} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                  ↓ Export Excel
-                </button>
-              )}
+              {tab==='import' && <button onClick={dlTemplate} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>↓ Template Excel</button>}
+              {tab==='rsvp' && rsvps.length > 0 && <button onClick={dlRsvpExcel} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>↓ Export Excel</button>}
+              {tab==='doa' && doas.length > 0 && <button onClick={dlDoaExcel} style={{ display:'flex', alignItems:'center', gap:6, padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:T.surface, color:T.ink2, fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>↓ Export Excel</button>}
             </div>
           </div>
 
-          {/* stats row */}
+          {/* Stats */}
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:22 }}>
             {(tab==='rsvp' ? [
               { label:'Total Konfirmasi', val:rsvpStats.total, accent:'#4F46E5', bg:'#EEEDF9', icon:'📋' },
@@ -351,23 +281,15 @@ export default function AdminDashboard() {
             ))}
           </div>
 
-          {/* ══ TAB: GUESTS ══ */}
+          {/* TAB: GUESTS */}
           {tab==='guests' && (<>
             <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, padding:'18px 20px', marginBottom:16 }}>
               <p style={{ fontSize:11, fontWeight:600, color:T.ink3, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:14 }}>Tambah Tamu</p>
               <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr 100px auto', gap:10, alignItems:'end' }}>
-                {[
-                  { k:'name',     label:'Nama *',   ph:'Nama tamu...' },
-                  { k:'category', label:'Kategori', ph:'Keluarga...' },
-                  { k:'phone',    label:'No HP',    ph:'628...' },
-                ].map(f => (
+                {[{ k:'name', label:'Nama *', ph:'Nama tamu...' }, { k:'category', label:'Kategori', ph:'Keluarga...' }, { k:'phone', label:'No HP', ph:'628...' }].map(f => (
                   <div key={f.k}>
                     <Lbl>{f.label}</Lbl>
-                    <input style={inp} placeholder={f.ph}
-                      value={(addForm as any)[f.k]}
-                      onChange={e => setAddForm(p => ({...p,[f.k]:e.target.value}))}
-                      onKeyDown={e => f.k==='name' && e.key==='Enter' && handleAdd()}
-                    />
+                    <input style={inp} placeholder={f.ph} value={(addForm as any)[f.k]} onChange={e => setAddForm(p => ({...p,[f.k]:e.target.value}))} onKeyDown={e => f.k==='name' && e.key==='Enter' && handleAdd()} />
                   </div>
                 ))}
                 <div>
@@ -377,34 +299,24 @@ export default function AdminDashboard() {
                     <option value="vip">VIP</option>
                   </select>
                 </div>
-                <button onClick={handleAdd} disabled={adding||!addForm.name.trim()}
-                  style={{ padding:'9px 16px', borderRadius:8, border:'none', background:T.accent, color:'#fff', fontSize:13, fontWeight:600, cursor:adding?'not-allowed':'pointer', fontFamily:T.font, opacity:adding?0.6:1, whiteSpace:'nowrap' }}
-                >
+                <button onClick={handleAdd} disabled={adding||!addForm.name.trim()} style={{ padding:'9px 16px', borderRadius:8, border:'none', background:T.accent, color:'#fff', fontSize:13, fontWeight:600, cursor:adding?'not-allowed':'pointer', fontFamily:T.font, opacity:adding?0.6:1, whiteSpace:'nowrap' }}>
                   {adding ? '...' : '+ Tambah'}
                 </button>
               </div>
             </div>
-
             <div style={{ display:'flex', gap:10, marginBottom:12 }}>
               <div style={{ flex:1, display:'flex', alignItems:'center', gap:8, background:T.surface, border:`1px solid ${T.border}`, borderRadius:8, padding:'0 12px' }}>
                 <span style={{ fontSize:13 }}>🔍</span>
-                <input style={{ border:'none', outline:'none', background:'transparent', fontSize:13, color:T.ink1, width:'100%', padding:'9px 0', fontFamily:T.font }}
-                  placeholder="Cari nama atau kategori..." value={search} onChange={e => setSearch(e.target.value)} />
+                <input style={{ border:'none', outline:'none', background:'transparent', fontSize:13, color:T.ink1, width:'100%', padding:'9px 0', fontFamily:T.font }} placeholder="Cari nama atau kategori..." value={search} onChange={e => setSearch(e.target.value)} />
               </div>
               <div style={{ display:'flex', background:T.surface, border:`1px solid ${T.border}`, borderRadius:8, padding:3, gap:2 }}>
                 {(['all','vip','umum'] as const).map(t => (
-                  <button key={t} onClick={() => setFType(t)} style={{
-                    padding:'5px 14px', borderRadius:6, border:'none', cursor:'pointer',
-                    fontSize:12, fontWeight:500, fontFamily:T.font, transition:'all 0.15s',
-                    background: fType===t ? T.accentBg : 'transparent',
-                    color:      fType===t ? T.accent   : T.ink3,
-                  }}>
+                  <button key={t} onClick={() => setFType(t)} style={{ padding:'5px 14px', borderRadius:6, border:'none', cursor:'pointer', fontSize:12, fontWeight:500, fontFamily:T.font, transition:'all 0.15s', background: fType===t ? T.accentBg : 'transparent', color: fType===t ? T.accent : T.ink3 }}>
                     {t==='all' ? 'Semua' : t.toUpperCase()}
                   </button>
                 ))}
               </div>
             </div>
-
             <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, overflow:'hidden' }}>
               <div style={{ overflowX:'auto' }}>
                 <table style={{ width:'100%', borderCollapse:'collapse', minWidth:860 }}>
@@ -421,7 +333,7 @@ export default function AdminDashboard() {
                     ) : filtered.length===0 ? (
                       <tr><td colSpan={8} style={{ padding:36, textAlign:'center', color:T.ink3, fontSize:13 }}>Belum ada tamu ditemukan</td></tr>
                     ) : filtered.map((g, i) => (
-                      <tr key={g.id} style={{ borderBottom:`1px solid ${T.border}`, transition:'background 0.1s' }}>
+                      <tr key={g.id} style={{ borderBottom:`1px solid ${T.border}` }}>
                         <td style={{ padding:'12px 16px', fontSize:12, color:T.ink3 }}>{i+1}</td>
                         <td style={{ padding:'12px 16px' }}>
                           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
@@ -433,10 +345,7 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td style={{ padding:'12px 16px' }}>
-                          <span style={{ padding:'2px 8px', borderRadius:4, fontSize:10, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase',
-                            background: g.type==='vip' ? '#FEF3C7' : T.accentBg,
-                            color:      g.type==='vip' ? '#D97706'  : T.accent,
-                          }}>{g.type}</span>
+                          <span style={{ padding:'2px 8px', borderRadius:4, fontSize:10, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase', background: g.type==='vip' ? '#FEF3C7' : T.accentBg, color: g.type==='vip' ? '#D97706' : T.accent }}>{g.type}</span>
                         </td>
                         <td style={{ padding:'12px 16px', fontSize:12, color:T.ink2 }}>{g.category||'—'}</td>
                         <td style={{ padding:'12px 16px' }}>
@@ -451,28 +360,21 @@ export default function AdminDashboard() {
                             <button onClick={() => copy(invUrl(g.slug), g.id+'-link')} style={{ padding:'5px 10px', borderRadius:6, border:`1px solid ${T.border}`, background:T.bg, color: copied===g.id+'-link' ? '#059669' : T.ink2, fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
                               {copied===g.id+'-link' ? '✓ Copied' : '🔗 Link'}
                             </button>
-                            <a href={invUrl(g.slug)} target="_blank" rel="noopener noreferrer" style={{ padding:'5px 10px', borderRadius:6, border:`1px solid ${T.border}`, background:T.bg, color:T.ink3, fontSize:11, fontWeight:500, textDecoration:'none' }}>
-                              Preview
-                            </a>
+                            <a href={invUrl(g.slug)} target="_blank" rel="noopener noreferrer" style={{ padding:'5px 10px', borderRadius:6, border:`1px solid ${T.border}`, background:T.bg, color:T.ink3, fontSize:11, fontWeight:500, textDecoration:'none' }}>Preview</a>
                           </div>
                         </td>
                         <td style={{ padding:'12px 16px' }}>
                           <div style={{ display:'flex', gap:6 }}>
                             <button onClick={() => copy(buildMsg(tmpl,g), g.id+'-msg')} style={{ padding:'5px 10px', borderRadius:6, border:'1px solid rgba(37,211,102,0.3)', background:'rgba(37,211,102,0.07)', color: copied===g.id+'-msg' ? '#059669' : '#1a9544', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                              {copied===g.id+'-msg' ? '✓ Copied' : '📋 Salin Pesan'}
+                              {copied===g.id+'-msg' ? '✓ Copied' : '📋 Salin'}
                             </button>
-                            <a href={waUrl(g,tmpl)} target="_blank" rel="noopener noreferrer"
-                              style={{ padding:'5px 10px', borderRadius:6, border:'1px solid rgba(37,211,102,0.3)', background:'rgba(37,211,102,0.07)', color:'#1a9544', fontSize:11, fontWeight:600, textDecoration:'none', display:'flex', alignItems:'center', gap:4 }}
-                            >
-                              <svg width="10" height="10" viewBox="0 0 24 24" fill="#1a9544"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                              Kirim WA
+                            <a href={waUrl(g,tmpl)} target="_blank" rel="noopener noreferrer" style={{ padding:'5px 10px', borderRadius:6, border:'1px solid rgba(37,211,102,0.3)', background:'rgba(37,211,102,0.07)', color:'#1a9544', fontSize:11, fontWeight:600, textDecoration:'none' }}>
+                              WA
                             </a>
                           </div>
                         </td>
                         <td style={{ padding:'12px 16px' }}>
-                          <button onClick={() => handleDelete(g.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                            Hapus
-                          </button>
+                          <button onClick={() => handleDelete(g.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>Hapus</button>
                         </td>
                       </tr>
                     ))}
@@ -482,42 +384,32 @@ export default function AdminDashboard() {
             </div>
           </>)}
 
-          {/* ══ TAB: RSVP ══ */}
+          {/* TAB: RSVP */}
           {tab==='rsvp' && (<>
             <div style={{ display:'flex', gap:10, marginBottom:12 }}>
               <div style={{ display:'flex', background:T.surface, border:`1px solid ${T.border}`, borderRadius:8, padding:3, gap:2 }}>
-                {([
-                  { v:'all',   label:'Semua' },
-                  { v:'hadir', label:'✅ Hadir' },
-                  { v:'tidak', label:'❌ Tidak Hadir' },
-                ] as {v:'all'|'hadir'|'tidak';label:string}[]).map(t => (
-                  <button key={t.v} onClick={() => setRsvpFilter(t.v)} style={{
-                    padding:'5px 14px', borderRadius:6, border:'none', cursor:'pointer',
-                    fontSize:12, fontWeight:500, fontFamily:T.font, transition:'all 0.15s',
-                    background: rsvpFilter===t.v ? T.accentBg : 'transparent',
-                    color:      rsvpFilter===t.v ? T.accent   : T.ink3,
-                  }}>
+                {([{ v:'all', label:'Semua' }, { v:'hadir', label:'✅ Hadir' }, { v:'tidak', label:'❌ Tidak Hadir' }] as {v:'all'|'hadir'|'tidak';label:string}[]).map(t => (
+                  <button key={t.v} onClick={() => setRsvpFilter(t.v)} style={{ padding:'5px 14px', borderRadius:6, border:'none', cursor:'pointer', fontSize:12, fontWeight:500, fontFamily:T.font, transition:'all 0.15s', background: rsvpFilter===t.v ? T.accentBg : 'transparent', color: rsvpFilter===t.v ? T.accent : T.ink3 }}>
                     {t.label}
                   </button>
                 ))}
               </div>
             </div>
-
             <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, overflow:'hidden' }}>
               <div style={{ overflowX:'auto' }}>
-                <table style={{ width:'100%', borderCollapse:'collapse', minWidth:500 }}>
+                <table style={{ width:'100%', borderCollapse:'collapse', minWidth:560 }}>
                   <thead>
                     <tr style={{ borderBottom:`1px solid ${T.border}` }}>
-                      {['No','Nama','Kehadiran','Waktu',''].map(h => (
+                      {['No','Nama','Kehadiran','Keterangan','Waktu',''].map(h => (
                         <th key={h} style={{ padding:'11px 16px', textAlign:'left', fontSize:10, letterSpacing:'0.1em', textTransform:'uppercase', color:T.ink3, fontWeight:600, whiteSpace:'nowrap', fontFamily:T.font }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {rsvpLoading ? (
-                      <tr><td colSpan={5} style={{ padding:36, textAlign:'center', color:T.ink3, fontSize:13 }}>Memuat...</td></tr>
+                      <tr><td colSpan={6} style={{ padding:36, textAlign:'center', color:T.ink3, fontSize:13 }}>Memuat...</td></tr>
                     ) : filteredRsvp.length===0 ? (
-                      <tr><td colSpan={5} style={{ padding:36, textAlign:'center', color:T.ink3, fontSize:13 }}>Belum ada konfirmasi</td></tr>
+                      <tr><td colSpan={6} style={{ padding:36, textAlign:'center', color:T.ink3, fontSize:13 }}>Belum ada konfirmasi</td></tr>
                     ) : filteredRsvp.map((r, i) => (
                       <tr key={r.id} style={{ borderBottom:`1px solid ${T.border}` }}>
                         <td style={{ padding:'12px 16px', fontSize:12, color:T.ink3 }}>{i+1}</td>
@@ -528,21 +420,22 @@ export default function AdminDashboard() {
                           </div>
                         </td>
                         <td style={{ padding:'12px 16px' }}>
-                          <span style={{
-                            padding:'3px 10px', borderRadius:4, fontSize:11, fontWeight:700, letterSpacing:'0.04em',
-                            background: r.attendance==='hadir' ? '#D1FAE5' : '#FEE2E2',
-                            color:      r.attendance==='hadir' ? '#059669' : '#DC2626',
-                          }}>
+                          <span style={{ padding:'3px 10px', borderRadius:4, fontSize:11, fontWeight:700, letterSpacing:'0.04em', background: r.attendance==='hadir' ? '#D1FAE5' : '#FEE2E2', color: r.attendance==='hadir' ? '#059669' : '#DC2626' }}>
                             {r.attendance==='hadir' ? '✅ Hadir' : '❌ Tidak Hadir'}
                           </span>
+                        </td>
+                        <td style={{ padding:'12px 16px', fontSize:12, color:T.ink2, maxWidth:200 }}>
+                          {r.notes ? (
+                            <span style={{ background:T.bg, padding:'3px 8px', borderRadius:6, fontSize:11 }}>{r.notes}</span>
+                          ) : (
+                            <span style={{ color:T.ink3, fontSize:11 }}>—</span>
+                          )}
                         </td>
                         <td style={{ padding:'12px 16px', fontSize:11, color:T.ink3, whiteSpace:'nowrap' }}>
                           {new Date(r.createdAt).toLocaleString('id-ID', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}
                         </td>
                         <td style={{ padding:'12px 16px' }}>
-                          <button onClick={() => handleDeleteRsvp(r.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                            Hapus
-                          </button>
+                          <button onClick={() => handleDeleteRsvp(r.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>Hapus</button>
                         </td>
                       </tr>
                     ))}
@@ -552,7 +445,7 @@ export default function AdminDashboard() {
             </div>
           </>)}
 
-          {/* ══ TAB: DOA ══ */}
+          {/* TAB: DOA */}
           {tab==='doa' && (
             <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, overflow:'hidden' }}>
               <div style={{ overflowX:'auto' }}>
@@ -585,9 +478,7 @@ export default function AdminDashboard() {
                           {new Date(d.createdAt).toLocaleString('id-ID', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}
                         </td>
                         <td style={{ padding:'12px 16px' }}>
-                          <button onClick={() => handleDeleteDoa(d.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>
-                            Hapus
-                          </button>
+                          <button onClick={() => handleDeleteDoa(d.id)} style={{ padding:'5px 9px', borderRadius:6, border:'1px solid rgba(239,68,68,0.2)', background:'rgba(239,68,68,0.06)', color:'#DC2626', fontSize:11, fontWeight:600, cursor:'pointer', fontFamily:T.font }}>Hapus</button>
                         </td>
                       </tr>
                     ))}
@@ -597,26 +488,20 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ══ TAB: IMPORT ══ */}
+          {/* TAB: IMPORT */}
           {tab==='import' && (
             <div style={{ maxWidth:660 }}>
               <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, padding:'22px', marginBottom:16 }}>
                 <p style={{ fontSize:13, color:T.ink2, marginBottom:14, lineHeight:1.7 }}>
                   Upload file Excel dengan kolom: <Tag>Nama</Tag> <Tag>Tipe</Tag> <Tag>Kategori</Tag> <Tag>No HP</Tag>
                 </p>
-                <div
-                  onClick={() => fileRef.current?.click()}
-                  style={{ border:`2px dashed ${T.border}`, borderRadius:10, padding:'40px 20px', textAlign:'center', cursor:'pointer', transition:'border-color 0.15s' }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor='#4F46E5')}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor='#EBEBEC')}
-                >
+                <div onClick={() => fileRef.current?.click()} style={{ border:`2px dashed ${T.border}`, borderRadius:10, padding:'40px 20px', textAlign:'center', cursor:'pointer' }} onMouseEnter={e => (e.currentTarget.style.borderColor='#4F46E5')} onMouseLeave={e => (e.currentTarget.style.borderColor='#EBEBEC')}>
                   <p style={{ fontSize:28, marginBottom:8 }}>📂</p>
-                  <p style={{ fontSize:13, fontWeight:600, color:T.ink1, letterSpacing:'-0.02em', marginBottom:3 }}>Klik untuk upload file Excel</p>
+                  <p style={{ fontSize:13, fontWeight:600, color:T.ink1, marginBottom:3 }}>Klik untuk upload file Excel</p>
                   <p style={{ fontSize:12, color:T.ink3 }}>Format: .xlsx atau .xls</p>
                   <input ref={fileRef} type="file" accept=".xlsx,.xls" style={{ display:'none' }} onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
                 </div>
               </div>
-
               {preview.length > 0 && (
                 <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, overflow:'hidden' }}>
                   <div style={{ padding:'14px 20px', borderBottom:`1px solid ${T.border}`, display:'flex', alignItems:'center', justifyContent:'space-between' }}>
@@ -628,18 +513,14 @@ export default function AdminDashboard() {
                   <table style={{ width:'100%', borderCollapse:'collapse' }}>
                     <thead>
                       <tr style={{ borderBottom:`1px solid ${T.border}` }}>
-                        {['Nama','Tipe','Kategori','No HP'].map(h => (
-                          <th key={h} style={{ padding:'10px 16px', textAlign:'left', fontSize:10, letterSpacing:'0.1em', textTransform:'uppercase', color:T.ink3, fontWeight:600 }}>{h}</th>
-                        ))}
+                        {['Nama','Tipe','Kategori','No HP'].map(h => (<th key={h} style={{ padding:'10px 16px', textAlign:'left', fontSize:10, letterSpacing:'0.1em', textTransform:'uppercase', color:T.ink3, fontWeight:600 }}>{h}</th>))}
                       </tr>
                     </thead>
                     <tbody>
                       {preview.slice(0,25).map((g,i) => (
                         <tr key={i} style={{ borderBottom:`1px solid ${T.border}` }}>
                           <td style={{ padding:'10px 16px', fontSize:13, fontWeight:500, color:T.ink1 }}>{g.name}</td>
-                          <td style={{ padding:'10px 16px' }}>
-                            <span style={{ fontSize:10, fontWeight:700, padding:'2px 7px', borderRadius:4, background: g.type==='vip'?'#FEF3C7':'#EEEDF9', color: g.type==='vip'?'#D97706':'#4F46E5' }}>{g.type.toUpperCase()}</span>
-                          </td>
+                          <td style={{ padding:'10px 16px' }}><span style={{ fontSize:10, fontWeight:700, padding:'2px 7px', borderRadius:4, background: g.type==='vip'?'#FEF3C7':'#EEEDF9', color: g.type==='vip'?'#D97706':'#4F46E5' }}>{g.type.toUpperCase()}</span></td>
                           <td style={{ padding:'10px 16px', fontSize:12, color:T.ink2 }}>{g.category||'—'}</td>
                           <td style={{ padding:'10px 16px', fontSize:12, color:T.ink2 }}>{g.phone||'—'}</td>
                         </tr>
@@ -652,20 +533,16 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* ══ TAB: TEMPLATE ══ */}
+          {/* TAB: TEMPLATE */}
           {tab==='template' && (
             <div style={{ maxWidth:660 }}>
               <div style={{ background:T.surface, border:`1px solid ${T.border}`, borderRadius:10, padding:'22px' }}>
                 <p style={{ fontSize:13, color:T.ink2, marginBottom:14, lineHeight:1.7 }}>
                   Variabel: <Tag>{'{nama}'}</Tag> <Tag>{'{link}'}</Tag> <Tag>{'{groom}'}</Tag> <Tag>{'{bride}'}</Tag>
                 </p>
-                <textarea value={tmpl} onChange={e => setTmpl(e.target.value)} rows={14}
-                  style={{ ...inp, resize:'vertical', lineHeight:1.8, fontFamily:'monospace', fontSize:12 }}
-                />
+                <textarea value={tmpl} onChange={e => setTmpl(e.target.value)} rows={14} style={{ ...inp, resize:'vertical', lineHeight:1.8, fontFamily:'monospace', fontSize:12 }} />
                 <div style={{ display:'flex', gap:10, marginTop:12, alignItems:'center' }}>
-                  <button onClick={() => setTmpl(DEFAULT_TEMPLATE)} style={{ padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:'transparent', color:T.ink2, fontSize:12, fontWeight:500, cursor:'pointer', fontFamily:T.font }}>
-                    Reset Default
-                  </button>
+                  <button onClick={() => setTmpl(DEFAULT_TEMPLATE)} style={{ padding:'8px 14px', borderRadius:8, border:`1px solid ${T.border}`, background:'transparent', color:T.ink2, fontSize:12, fontWeight:500, cursor:'pointer', fontFamily:T.font }}>Reset Default</button>
                   <span style={{ fontSize:12, color:T.ink3 }}>✓ Tersimpan dalam sesi ini</span>
                 </div>
                 <div style={{ marginTop:22, paddingTop:20, borderTop:`1px solid ${T.border}` }}>

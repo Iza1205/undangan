@@ -15,7 +15,9 @@ export type Guest = {
 }
 export type RSVP = {
   id: string; name: string
-  attendance: 'hadir' | 'tidak'; createdAt: string
+  attendance: 'hadir' | 'tidak'
+  notes: string
+  createdAt: string
 }
 export type Doa = {
   id: string; name: string; message: string; createdAt: string
@@ -50,9 +52,15 @@ export async function getRsvpStats() {
     tidak: rsvps.filter(r => r.attendance === 'tidak').length,
   }
 }
-export async function addRsvp(data: { name: string; attendance: 'hadir' | 'tidak' }): Promise<RSVP> {
+export async function addRsvp(data: { name: string; attendance: 'hadir' | 'tidak'; notes?: string }): Promise<RSVP> {
   const rsvps = await getAllRsvp()
-  const rsvp: RSVP = { id: uid(), name: data.name, attendance: data.attendance, createdAt: new Date().toISOString() }
+  const rsvp: RSVP = {
+    id: uid(),
+    name: data.name,
+    attendance: data.attendance,
+    notes: data.notes?.trim() || '',
+    createdAt: new Date().toISOString()
+  }
   await redis.set('rsvps', [...rsvps, rsvp])
   return rsvp
 }
