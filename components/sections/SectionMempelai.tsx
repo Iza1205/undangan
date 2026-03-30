@@ -97,7 +97,7 @@ function PersonCard({ photo, name, father, mother, instagram, slug, q, animation
         borderRadius: 20,
         marginBottom: 12,
       }}>
-        Lihat profil
+        Lihat profil lengkap
         <ArrowUpRight size={11} strokeWidth={2.5} />
       </span>
 

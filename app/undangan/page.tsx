@@ -11,7 +11,8 @@ function CoverContent() {
   const guest = searchParams.get('untuk') || 'Tamu Undangan';
 
   const handleOpen = () => {
-    // Langsung redirect ke halaman utama — tidak pakai sessionStorage lagi
+    // Tandai bahwa user sudah lewat cover
+    sessionStorage.setItem('from_cover', 'true');
     router.push(`/undangan/home?untuk=${encodeURIComponent(guest)}`);
   };
 

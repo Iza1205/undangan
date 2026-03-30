@@ -8,14 +8,41 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const pathname = usePathname()
+  const hasStarted = useRef(false)
 
   const isVisible = pathname?.startsWith('/undangan')
 
+  // Set volume saat pertama kali
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3
+    }
+  }, [])
+
+  // Mulai music setelah interaksi pertama user
   useEffect(() => {
     if (!isVisible) return
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {})
-      setIsPlaying(true)
+
+    const startOnInteraction = () => {
+      if (hasStarted.current) return
+      hasStarted.current = true
+      audioRef.current?.play().then(() => {
+        setIsPlaying(true)
+      }).catch(() => {})
+
+      window.removeEventListener('touchstart', startOnInteraction)
+      window.removeEventListener('click', startOnInteraction)
+      window.removeEventListener('keydown', startOnInteraction)
+    }
+
+    window.addEventListener('touchstart', startOnInteraction)
+    window.addEventListener('click', startOnInteraction)
+    window.addEventListener('keydown', startOnInteraction)
+
+    return () => {
+      window.removeEventListener('touchstart', startOnInteraction)
+      window.removeEventListener('click', startOnInteraction)
+      window.removeEventListener('keydown', startOnInteraction)
     }
   }, [isVisible])
 
