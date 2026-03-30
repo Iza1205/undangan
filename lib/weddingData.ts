@@ -88,7 +88,7 @@ export const weddingConfig = {
   gifts: {
     accounts: [
       { bankName: 'Bank BCA', number: '1234567890', holder: 'Iza Mahendra' },
-      { bankName: 'Bank Mandiri', number: '0987654321', holder: 'Nurul Fikriyah' },
+      { bankName: 'Bank BSI', number: '0987654321', holder: 'Nurul Fikriyah' },
     ],
     shipping: {
       receiver: 'Kediaman Nurul Fikriyah',
