@@ -1,7 +1,8 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { weddingConfig } from '@/lib/weddingData'
-import { Clock, CalendarDays } from 'lucide-react'
+import { Clock, CalendarDays, ArrowRight } from 'lucide-react'
 
 const S: Record<string, React.CSSProperties> = {
   label: { fontSize: 11, fontWeight: 500, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' as const },
@@ -9,6 +10,7 @@ const S: Record<string, React.CSSProperties> = {
 
 export default function SectionJadwal({ q }: { q: string }) {
   const { events } = weddingConfig
+  const router = useRouter()
 
   return (
     <div style={{ padding: '0 20px', marginTop: 16 }} className="fade-up fade-up-delay-3">
@@ -32,7 +34,7 @@ export default function SectionJadwal({ q }: { q: string }) {
             style={{
               display: 'flex',
               alignItems: 'stretch',
-              borderBottom: i < events.length - 1 ? '1px solid var(--border)' : 'none',
+              borderBottom: '1px solid var(--border)',
             }}
           >
             {/* Left color bar */}
@@ -89,6 +91,36 @@ export default function SectionJadwal({ q }: { q: string }) {
             </div>
           </div>
         ))}
+
+        {/* Button: Lihat Jadwal Lengkap */}
+        <button
+          onClick={() => router.push(`/undangan/jadwal?untuk=${encodeURIComponent(q)}`)}
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '13px 18px',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            borderTop: '1px solid var(--border)',
+          }}
+        >
+          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-1)' }}>
+            Lihat Jadwal Lengkap
+          </span>
+          <div style={{
+            width: 28, height: 28, borderRadius: 8,
+            border: '0.5px solid var(--border)',
+            background: 'var(--bg)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <ArrowRight size={12} color="var(--ink-2)" strokeWidth={2} />
+          </div>
+        </button>
+
       </div>
 
     </div>
