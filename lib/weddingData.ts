@@ -9,11 +9,11 @@ export const weddingConfig = {
     father: 'Bpk. Emharis',
     mother: 'Ibu Delmi Yulita',
     childOrder: 'Putra kedua dari 5 bersaudara',
-    hobbies: ['Traveling', 'Fotografi', 'Olahraga'],
-    personality: 'Sosok yang tenang, bertanggung jawab, dan penuh perhatian.',
-    quote: 'Cinta sejati bukan soal menemukan orang yang sempurna, tapi menerima yang tidak sempurna dengan sempurna.',
+    hobbies: ['Musik', 'Jalan-Jalan', 'Game'],
+    personality: 'Sosok yang pendiam, bertanggung jawab, dan penuh perhatian.',
+    quote: 'Pelan-pelan adalah cara tercepat untuk sampai ke tujuan.',
     instagram: 'izamhn',
-    about: 'Seorang pria sederhana yang percaya bahwa kebahagiaan sejati dimulai dari keluarga. Senang menjelajahi tempat baru dan mengabadikan momen indah.',
+    about: 'Seorang pria sederhana yang percaya bahwa kebahagiaan sejati dimulai dari keluarga. Senang mempelajari hal baru dan senang mengabadikan momen indah.',
   },
   bride: {
     slug: 'nurul',
@@ -23,7 +23,7 @@ export const weddingConfig = {
     father: 'Bpk. H. Syamsudin',
     mother: 'Ibu Hj. Muniah',
     childOrder: 'Putri kedua dari 2 bersaudara',
-    hobbies: ['Membaca', 'Memasak', 'Berkebun'],
+    hobbies: ['Membaca', 'Memasak', 'Jalan-Jalan'],
     personality: 'Hangat, cerdas, dan selalu membawa kebaikan di sekitarnya.',
     quote: 'Rumah bukan tentang tempatnya, tapi tentang siapa yang ada di dalamnya.',
     instagram: 'fkrnurull',
@@ -87,8 +87,8 @@ export const weddingConfig = {
 
   gifts: {
     accounts: [
-      { bankName: 'Bank BCA', number: '1234567890', holder: 'Iza Mahendra' },
-      { bankName: 'Bank BSI', number: '0987654321', holder: 'Nurul Fikriyah' },
+      { bankName: 'Bank BCA', number: '6815259312', holder: 'Iza Mahendra' },
+      { bankName: 'Bank BSI', number: '7300495464', holder: 'Nurul Fikriyah' },
     ],
     shipping: {
       receiver: 'Kediaman Nurul Fikriyah',
