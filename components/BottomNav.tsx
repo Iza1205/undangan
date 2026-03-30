@@ -1,7 +1,8 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { Home, Calendar, Heart, Image } from 'lucide-react'
+import { Home, Image, BookOpen } from 'lucide-react'
+import { FiHeart } from 'react-icons/fi'
 
 export default function BottomNav({ guestName }: { guestName?: string }) {
   const pathname = usePathname()
@@ -9,11 +10,11 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
   const q        = guestName ? `?untuk=${encodeURIComponent(guestName)}` : ''
 
   const items = [
-    { icon: Home,     label: 'Beranda', path: `/undangan/home${q}`,        match: /^\/undangan(\/home)?$/ },
-    { icon: Heart,    label: 'Cerita',  path: `/undangan/cerita${q}`,      match: /^\/undangan\/cerita/ },
-    { icon: null,     label: 'Doa',     path: `/undangan/doa${q}`,         match: /^\/undangan\/doa/ },
-    { icon: Image,    label: 'Gallery', path: `/undangan/gallery${q}`,     match: /^\/undangan\/gallery/ },
-    { icon: Calendar, label: 'Jadwal',  path: `/undangan/jadwal${q}`,      match: /^\/undangan\/jadwal/ },
+    { icon: Home,  label: 'Beranda', path: `/undangan/home${q}`,          match: /^\/undangan(\/home)?$/ },
+    { icon: BookOpen, label: 'Cerita',  path: `/undangan/cerita${q}`,        match: /^\/undangan\/cerita/ },
+    { icon: null,  label: 'Doa',     path: `/undangan/doa${q}`,           match: /^\/undangan\/doa/ },
+    { icon: Image, label: 'Gallery', path: `/undangan/gallery${q}`,       match: /^\/undangan\/gallery/ },
+    { icon: null,  label: 'Terima Kasih', path: `/undangan/terimakasih${q}`, match: /^\/undangan\/terimakasih/ },
   ]
 
   return (
@@ -45,7 +46,7 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
           align-items: center;
           justify-content: center;
           gap: 3px;
-          padding: 4px 12px;
+          padding: 4px 8px;
           border: none;
           background: none;
           cursor: pointer;
@@ -55,12 +56,11 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
         }
         .bn-btn:active { opacity: 0.6; }
         .bn-label {
-          font-size: 9.5px;
+          font-size: 9px;
           font-family: var(--font, system-ui);
           letter-spacing: -0.01em;
           line-height: 1;
         }
-        /* Center Doa button */
         .bn-doa {
           display: flex;
           flex-direction: column;
@@ -93,11 +93,26 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
           box-shadow: 0 4px 20px rgba(124,58,237,0.5);
         }
         .bn-doa-label {
-          font-size: 9.5px;
+          font-size: 9px;
           font-family: var(--font, system-ui);
           letter-spacing: -0.01em;
           line-height: 1;
         }
+        .bn-tk {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
+          padding: 4px 8px;
+          border: none;
+          background: none;
+          cursor: pointer;
+          -webkit-tap-highlight-color: transparent;
+          outline: none;
+          flex: 1;
+        }
+        .bn-tk:active { opacity: 0.6; }
       `}</style>
 
       <nav className="bn-wrap">
@@ -105,15 +120,11 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
           {items.map(({ icon: Icon, label, path, match }) => {
             const active = match.test(pathname)
             const isDoa  = label === 'Doa'
+            const isTK   = label === 'Terima Kasih'
 
             if (isDoa) {
               return (
-                <button
-                  key={label}
-                  onClick={() => router.push(path)}
-                  className="bn-doa"
-                  aria-label="Doa"
-                >
+                <button key={label} onClick={() => router.push(path)} className="bn-doa" aria-label="Doa">
                   <div className={`bn-doa-ring${active ? ' active' : ''}`}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17 11V5a2 2 0 0 0-4 0v3" />
@@ -122,38 +133,40 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
                       <path d="M19 9a2 2 0 0 1 2 2v1a8 8 0 0 1-16 0v-1a2 2 0 0 1 2-2" />
                     </svg>
                   </div>
-                  <span
-                    className="bn-doa-label"
-                    style={{ color: active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)', fontWeight: active ? 600 : 400 }}
-                  >
+                  <span className="bn-doa-label" style={{ color: active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)', fontWeight: active ? 600 : 400 }}>
                     Doa
                   </span>
                 </button>
               )
             }
 
+            if (isTK) {
+              return (
+                <button key={label} onClick={() => router.push(path)} className="bn-tk" aria-label="Terima Kasih">
+                  <FiHeart
+                    size={22}
+                    strokeWidth={active ? 2.2 : 1.6}
+                    color={active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)'}
+                    fill={active ? 'var(--accent, #7C3AED)' : 'none'}
+                  />
+                  <span className="bn-label" style={{ color: active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)', fontWeight: active ? 600 : 400 }}>
+                    Terima Kasih
+                  </span>
+                </button>
+              )
+            }
+
             return (
-              <button
-                key={label}
-                onClick={() => router.push(path)}
-                className="bn-btn"
-                aria-label={label}
-              >
+              <button key={label} onClick={() => router.push(path)} className="bn-btn" aria-label={label}>
                 {Icon && (
                   <Icon
                     size={22}
                     strokeWidth={active ? 2.2 : 1.6}
                     color={active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)'}
-                    fill={active && label === 'Cerita' ? 'var(--accent, #7C3AED)' : 'none'}
+                    fill='none'
                   />
                 )}
-                <span
-                  className="bn-label"
-                  style={{ 
-                    color: active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)', 
-                    fontWeight: active ? 600 : 400 
-                  }}
-                >
+                <span className="bn-label" style={{ color: active ? 'var(--accent, #7C3AED)' : 'var(--ink-3, #9ca3af)', fontWeight: active ? 600 : 400 }}>
                   {label}
                 </span>
               </button>
