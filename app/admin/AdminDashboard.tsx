@@ -12,23 +12,26 @@ type DoaStats  = { total:number }
 type Tab      = 'guests'|'import'|'template'|'rsvp'|'doa'
 
 const BASE_URL = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000')
-const GROOM = process.env.NEXT_PUBLIC_GROOM_NAME ?? 'Ahmad'
-const BRIDE = process.env.NEXT_PUBLIC_BRIDE_NAME ?? 'Siti'
+const GROOM = process.env.NEXT_PUBLIC_GROOM_NAME ?? 'Iza'
+const BRIDE = process.env.NEXT_PUBLIC_BRIDE_NAME ?? 'Nurul'
 
 const DEFAULT_TEMPLATE = `Assalamualaikum Wr. Wb. 🌸
 
 Kepada Yth.
-*Bapak/Ibu/Saudara/i {nama}*
+Bapak/Ibu/Saudara/i
+*{nama}*
 
-Dengan penuh kebahagiaan, kami mengundang kehadiran Bapak/Ibu/Saudara/i pada hari pernikahan kami:
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat untuk menghadiri acara pernikahan kami.
 
-💍 *${GROOM} & ${BRIDE}*
+Berikut link undangan kami, untuk info lengkap dari acara bisa kunjungi :
 
-Silakan buka undangan digital kami:
-👇
 {link}
 
-Atas kehadiran dan doa restunya, kami ucapkan terima kasih. 🙏
+Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh
+
+Terima kasih banyak atas perhatiannya.
 
 _Keluarga Besar ${GROOM} & ${BRIDE}_`
 
