@@ -11,7 +11,7 @@ const stories = [
   {
     date: '2023',
     title: 'Awal Pertemuan',
-    image: '/story/1.png',
+    image: '/story/A.png',
     description: [
       'Awalnya cuma ikut teman ke pantai, niatnya ya sekadar jalan dan refreshing. Di situ kita pertama kali ketemu. Obrolannya langsung nyambung, nggak canggung, dan nyaman aja dari awal.',
       'Yang paling keinget justru momen pulang boncengan dari pantai sambil ngobrol santai. Sederhana, tapi malah jadi momen yang kepikiran terus setelahnya.',
@@ -20,7 +20,7 @@ const stories = [
   {
     date: '2023',
     title: 'Menjalin Komitmen',
-    image: '/story/2.png',
+    image: '/story/b.png',
     description: [
       'Setelah dari pantai, kita tetap lanjut komunikasi. Awalnya biasa aja, tapi lama-lama jadi kebiasaan chat, telpon, dan saling cerita hal-hal kecil.',
       'Dari situ kita sadar kalau hubungan ini lebih dari sekadar teman. Akhirnya di tahun itu juga, kita sepakat untuk jalan bareng dan mulai hubungan yang lebih serius.',
@@ -29,16 +29,16 @@ const stories = [
   {
     date: '2024',
     title: 'LDR Serang - Jogja',
-    image: '/story/3.png',
+    image: '/story/c.png',
     description: [
       'Setelah Nurul lulus, dia pulang ke Jogja dan kita mulai LDR Serang – Jogja. Nggak selalu mudah, karena nggak bisa ketemu kapan aja.',
-      'Tapi kita tetap jalanin, saling jaga komunikasi. Sesekali ada waktu buat ketemu, termasuk di akhir 2024 waktu wisuda—momen singkat tapi cukup berarti.',
+      'Tapi kita tetap jalanin, saling jaga komunikasi. Sesekali ada waktu buat ketemu, termasuk di akhir 2024 waktu wisuda momen singkat tapi cukup berarti.',
     ],
   },
   {
     date: '2025',
     title: 'LDR Serang - Jakarta',
-    image: '/story/4.png',
+    image: '/story/d.png',
     description: [
       'Awal 2025, Iza pindah kerja ke Jakarta. Jarak jadi lebih dekat dibanding sebelumnya, walaupun masih LDR.',
       'Bedanya, sekarang lebih sering punya kesempatan buat ketemu. Nggak selalu lama, tapi cukup buat jaga hubungan tetap jalan dengan baik.',
@@ -47,9 +47,9 @@ const stories = [
   {
     date: '2026',
     title: 'Dari perjalanan panjang, akhirnya satu tujuan.',
-    image: '/story/5.png',
+    image: '/story/e.png',
     description: [
-      'Setelah melewati berbagai fase—ketemu tanpa rencana, LDR jauh, sampai yang lebih dekat—kita belajar banyak hal tentang komitmen dan konsisten.',
+      'Setelah melewati berbagai fase ketemu tanpa rencana, LDR jauh, sampai yang lebih dekat kita belajar banyak hal tentang komitmen dan konsisten.',
       'Akhirnya di tahun 2026, kita memutuskan untuk melangkah ke tahap yang lebih serius. 02-06-2026 jadi hari yang kita pilih untuk memulai bab baru, sebagai pasangan suami istri.',
     ],
   },
