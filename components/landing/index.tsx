@@ -1,8 +1,7 @@
 import { FONTS, GLOBAL_CSS } from "./styles";
 import HeroSection from "./HeroSection";
-import FeaturesSection from "./FeaturesSection";
 import ThemesSection from "./ThemesSection";
-import ProofSection from "./ProofSection";
+import FeaturesSection from "./FeaturesSection";
 import BottomCTA from "./BottomCTA";
 import Footer from "./Footer";
 
@@ -12,9 +11,8 @@ export default function LandingPage() {
       <style dangerouslySetInnerHTML={{ __html: FONTS + GLOBAL_CSS }} />
       <div>
         <HeroSection />
-        <FeaturesSection />
         <ThemesSection />
-        <ProofSection />
+        <FeaturesSection />
         <BottomCTA />
         <Footer />
       </div>

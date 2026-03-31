@@ -101,8 +101,8 @@ const css = `
   /* Cards grid */
   .themes-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
   }
 
   .theme-card {
@@ -123,7 +123,7 @@ const css = `
   /* Thumbnail */
   .theme-thumb {
     position: relative;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
   }
 
@@ -177,10 +177,10 @@ const css = `
 
   /* Card body */
   .theme-body {
-    padding: 20px 20px 22px;
+    padding: 12px 14px 14px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     flex: 1;
   }
 
@@ -193,7 +193,7 @@ const css = `
 
   .theme-name {
     font-family: 'Playfair Display', serif;
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 400;
     color: #1a1814;
     line-height: 1.3;
@@ -201,13 +201,13 @@ const css = `
 
   .theme-price-wrap { text-align: right; }
   .theme-price {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: #a07838;
     white-space: nowrap;
   }
   .theme-price-note {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 300;
     color: rgba(26,24,20,0.4);
     letter-spacing: 0.04em;
@@ -226,13 +226,13 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 10px 0;
+    gap: 5px;
+    padding: 7px 0;
     border: 1px solid rgba(26,24,20,0.15);
     background: transparent;
     color: rgba(26,24,20,0.55);
     font-family: 'Jost', sans-serif;
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 400;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -251,12 +251,12 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
+    padding: 7px 0;
     border: 1px solid rgba(200,169,106,0.5);
     background: transparent;
     color: #a07838;
     font-family: 'Jost', sans-serif;
-    font-size: 11px;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -302,10 +302,12 @@ const css = `
   .themes-viewall-btn:hover { color: #a07838; border-color: #c8a96a; }
 
   @media (max-width: 900px) {
+    .themes-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 600px) {
     .themes-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 540px) {
-    .themes-grid { grid-template-columns: 1fr; }
     .themes { padding: 0 24px 80px; }
     .themes-tab { font-size: 11px; padding: 8px 14px; }
   }
@@ -322,15 +324,16 @@ interface ThemeItem {
   badgeClass: string;
   demoUrl: string;
   bg: string;
+  image?: string; // ← opsional, isi path gambar kalau ada
 }
 
 const THEMES: ThemeItem[] = [
-  { name: "Serene Bloom",    price: "Rp 150.000", category: "App Style", badge: "App Style", badgeClass: "app",     demoUrl: "#", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)" },
-  { name: "Aurum Dusk",      price: "Rp 250.000", category: "Premium",   badge: "Premium",   badgeClass: "premium", demoUrl: "#", bg: "linear-gradient(145deg,#1a1305,#2a1f08)" },
-  { name: "Noir Élégance",   price: "Rp 450.000", category: "Luxury",    badge: "Luxury",    badgeClass: "luxury",  demoUrl: "#", bg: "linear-gradient(145deg,#0d0c0a,#1c1812)" },
-  { name: "Batik Sari",      price: "Rp 200.000", category: "Adat",      badge: "Adat",      badgeClass: "adat",    demoUrl: "#", bg: "linear-gradient(145deg,#1a0a0a,#2a1010)" },
-  { name: "Celestial",       price: "Rp 350.000", category: "Premium",   badge: "Premium",   badgeClass: "premium", demoUrl: "#", bg: "linear-gradient(145deg,#0e0f1a,#1a1b2e)" },
-  { name: "Javanese Grace",  price: "Rp 200.000", category: "Adat",      badge: "Adat",      badgeClass: "adat",    demoUrl: "#", bg: "linear-gradient(145deg,#12080a,#1f0e10)" },
+  { name: "Serene Bloom",    price: "Rp 150.000", category: "App Style", badge: "App Style", badgeClass: "app",     demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/2.png" },
+  { name: "Aurum Dusk",      price: "Rp 250.000", category: "Premium",   badge: "Premium",   badgeClass: "premium", demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/3.png" },
+  { name: "Noir Élégance",   price: "Rp 450.000", category: "Luxury",    badge: "Luxury",    badgeClass: "luxury",  demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/1.png" },
+  { name: "Batik Sari",      price: "Rp 200.000", category: "Adat",      badge: "Adat",      badgeClass: "adat",    demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/2.png" },
+  { name: "Celestial",       price: "Rp 350.000", category: "Premium",   badge: "Premium",   badgeClass: "premium", demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/3.png" },
+  { name: "Javanese Grace",  price: "Rp 200.000", category: "Adat",      badge: "Adat",      badgeClass: "adat",    demoUrl: "https://www.izwed.my.id/undangan", bg: "linear-gradient(145deg,#0f1929,#1a2a3a)", image: "/thumbnail/1.png" },
 ];
 
 export default function ThemesSection() {
@@ -377,20 +380,30 @@ export default function ThemesSection() {
           {filtered.map((theme) => (
             <div key={theme.name} className="theme-card">
               <div className="theme-thumb">
-                <div
-                  className="theme-thumb-placeholder"
-                  style={{ background: theme.bg }}
-                >
-                  <div className="theme-thumb-pattern" />
-                  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style={{ opacity: 0.2, color: "#c8a96a" }}>
-                    <rect x="4" y="6" width="28" height="24" rx="1" stroke="currentColor" strokeWidth="1"/>
-                    <path d="M4 12h28M12 6v6M24 6v6" stroke="currentColor" strokeWidth="1"/>
-                    <path d="M10 20h8M10 24h12" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                  </svg>
-                  <span style={{ fontSize: "11px", color: "rgba(200,169,106,0.35)", fontFamily: "'Playfair Display',serif", fontStyle: "italic" }}>
-                    {theme.name}
-                  </span>
-                </div>
+                {theme.image ? (
+                  // ← Kalau ada gambar, tampilkan foto
+                  <img
+                    src={theme.image}
+                    alt={theme.name}
+                    className="theme-thumb-img"
+                  />
+                ) : (
+                  // ← Kalau tidak ada, fallback ke placeholder gradient
+                  <div
+                    className="theme-thumb-placeholder"
+                    style={{ background: theme.bg }}
+                  >
+                    <div className="theme-thumb-pattern" />
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style={{ opacity: 0.2, color: "#c8a96a" }}>
+                      <rect x="4" y="6" width="28" height="24" rx="1" stroke="currentColor" strokeWidth="1"/>
+                      <path d="M4 12h28M12 6v6M24 6v6" stroke="currentColor" strokeWidth="1"/>
+                      <path d="M10 20h8M10 24h12" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                    </svg>
+                    <span style={{ fontSize: "11px", color: "rgba(200,169,106,0.35)", fontFamily: "'Playfair Display',serif", fontStyle: "italic" }}>
+                      {theme.name}
+                    </span>
+                  </div>
+                )}
                 <span className={`theme-badge ${theme.badgeClass}`}>{theme.badge}</span>
               </div>
 

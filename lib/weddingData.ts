@@ -30,28 +30,6 @@ export const weddingConfig = {
     about: 'Seorang pendidik yang percaya bahwa ilmu dan kasih sayang adalah bekal terbaik. Mencintai hal-hal kecil yang membuat hidup bermakna.',
   },
 
-  // --- DATA CERITA CINTA ---
-  stories: [
-    {
-      date: '2023',
-      title: 'Awal Pertemuan',
-      description: 'Pertemuan yang tidak disengaja namun berkesan, menjadi langkah awal dari segalanya.',
-      image: '/gallery/1.png',
-    },
-    {
-      date: '2023',
-      title: 'Menjalin Komitmen',
-      description: 'Memutuskan untuk berjalan bersama, saling menguatkan dan tumbuh dalam cinta.',
-      image: '/gallery/2.png',
-    },
-    {
-      date: '2 Juni 2026',
-      title: 'Menuju Hari Bahagia',
-      description: 'Setelah perjalanan panjang, kami akhirnya sampai di titik untuk memulai babak baru sebagai suami istri.',
-      image: '/gallery/3.png',
-    },
-  ],
-
   events: [
     {
       id: 'akad',
