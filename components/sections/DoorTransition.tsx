@@ -13,7 +13,7 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
     if (isOpen) {
       const timer = setTimeout(() => {
         onComplete();
-      }, 1500);
+      }, 2200);
       return () => clearTimeout(timer);
     }
   }, [isOpen, onComplete]);
@@ -24,7 +24,7 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 1.6 }}
           style={{
             position: 'fixed',
             inset: 0,
@@ -161,7 +161,6 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
                   gap: '0',
                 }}
               >
-                {/* Batang handle */}
                 <div style={{
                   width: '1.5px',
                   height: '36px',
@@ -169,7 +168,6 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
                   borderRadius: '1px',
                   opacity: 0.18,
                 }} />
-                {/* Oval knob */}
                 <div style={{
                   width: '9px',
                   height: '22px',
@@ -256,7 +254,6 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
                   gap: '0',
                 }}
               >
-                {/* Batang handle */}
                 <div style={{
                   width: '1.5px',
                   height: '36px',
@@ -264,7 +261,6 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
                   borderRadius: '1px',
                   opacity: 0.18,
                 }} />
-                {/* Oval knob */}
                 <div style={{
                   width: '9px',
                   height: '22px',
