@@ -13,7 +13,7 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
     if (isOpen) {
       const timer = setTimeout(() => {
         onComplete();
-      }, 3200);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [isOpen, onComplete]);
@@ -24,7 +24,7 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, delay: 2.6 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
           style={{
             position: 'fixed',
             inset: 0,

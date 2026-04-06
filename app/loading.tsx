@@ -1,4 +1,4 @@
-// app/undangan/loading.tsx
+// app/loading.tsx
 export default function Loading() {
   return (
     <div style={{

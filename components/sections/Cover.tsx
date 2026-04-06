@@ -139,7 +139,7 @@ export default function Cover({ onOpen }: CoverProps) {
                   style={{
                     fontSize: '15px',
                     fontWeight: 500,
-                    color: '#6231E1',
+                    color: '#0072DB',
                     marginBottom: '20px',
                     letterSpacing: '-0.01em',
                   }}
@@ -188,14 +188,14 @@ export default function Cover({ onOpen }: CoverProps) {
                   <motion.button
                     onClick={handleOpen}
                     whileTap={{ scale: 0.98 }}
-                    whileHover={{ backgroundColor: '#4f22c8' }}
+                    whileHover={{ backgroundColor: '#005ab8' }}
                     style={{
                       width: '100%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       gap: '8px',
-                      backgroundColor: '#6231E1',
+                      backgroundColor: '#0072DB',
                       color: '#ffffff',
                       borderRadius: '999px',
                       padding: '14px 0',
@@ -205,7 +205,7 @@ export default function Cover({ onOpen }: CoverProps) {
                       letterSpacing: '0.04em',
                       border: 'none',
                       cursor: 'pointer',
-                      boxShadow: '0 4px 20px rgba(98,49,225,0.25)',
+                      boxShadow: '0 4px 20px rgba(0,114,219,0.25)',
                       transition: 'background-color 0.2s ease',
                     }}
                   >
