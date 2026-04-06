@@ -110,21 +110,6 @@ export default function GalleryPage() {
           transition: transform 0.5s ease;
         }
 
-        .g-caption { padding: 6px 2px 10px; }
-        .g-caption-cat {
-          font-size: 9px;
-          font-weight: 600;
-          color: var(--ink-3);
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-        .g-caption-txt {
-          font-size: 11px;
-          color: var(--ink-2);
-          margin-top: 2px;
-          line-height: 1.4;
-        }
-
         .g-lightbox {
           position: fixed;
           inset: 0;
@@ -235,10 +220,6 @@ export default function GalleryPage() {
                       </div>
                     )}
                   </div>
-                  <div className="g-caption">
-                    <div className="g-caption-cat">{item.category}</div>
-                    <div className="g-caption-txt">{item.caption}</div>
-                  </div>
                 </div>
               )
             })}
@@ -271,10 +252,6 @@ export default function GalleryPage() {
                         <ImageOff size={16} color="var(--ink-3)" />
                       </div>
                     )}
-                  </div>
-                  <div className="g-caption">
-                    <div className="g-caption-cat">{item.category}</div>
-                    <div className="g-caption-txt">{item.caption}</div>
                   </div>
                 </div>
               )
@@ -320,34 +297,18 @@ export default function GalleryPage() {
               </button>
             </div>
 
-            {/* Card body */}
-            <div style={{ padding: '14px 16px 16px' }}>
-              <div style={{
-                fontSize: 9, fontWeight: 600, color: 'var(--ink-3)',
-                letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4,
-              }}>
-                {lightbox.item.category}
-              </div>
-              <div style={{
-                fontSize: 13, fontWeight: 500, color: 'var(--ink-1)',
-                lineHeight: 1.4, marginBottom: 14,
-              }}>
-                {lightbox.item.caption}
-              </div>
-
-              {/* Footer: counter + nav */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>
-                  {lightbox.index + 1} / {filtered.length}
-                </span>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  <button className="g-nav-btn" onClick={goPrev}>
-                    <ChevronLeft size={14} />
-                  </button>
-                  <button className="g-nav-btn" onClick={goNext}>
-                    <ChevronRight size={14} />
-                  </button>
-                </div>
+            {/* Footer: counter + nav */}
+            <div style={{ padding: '14px 16px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>
+                {lightbox.index + 1} / {filtered.length}
+              </span>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button className="g-nav-btn" onClick={goPrev}>
+                  <ChevronLeft size={14} />
+                </button>
+                <button className="g-nav-btn" onClick={goNext}>
+                  <ChevronRight size={14} />
+                </button>
               </div>
             </div>
           </div>
