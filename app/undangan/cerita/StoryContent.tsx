@@ -38,7 +38,7 @@ const stories = [
   {
     date: '2025',
     title: 'LDR Serang - Jakarta',
-    image: '/story/d.png',
+    image: '/story/f.png',
     description: [
       'Awal 2025, Iza pindah kerja ke Jakarta. Jarak jadi lebih dekat dibanding sebelumnya, walaupun masih LDR.',
       'Bedanya, sekarang lebih sering punya kesempatan buat ketemu. Nggak selalu lama, tapi cukup buat jaga hubungan tetap jalan dengan baik.',
