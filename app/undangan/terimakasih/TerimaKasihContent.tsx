@@ -132,7 +132,7 @@ export default function TerimaKasihContent() {
               flexShrink: 0,
               position: 'relative',
             }}>
-              <Image src='/mempelai/cewe.png' alt={bride.name} fill style={{ objectFit: 'cover' }} />
+              <Image src='/mempelai/cewee.png' alt={bride.name} fill style={{ objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-1)', marginBottom: 4 }}>{bride.name}</p>
