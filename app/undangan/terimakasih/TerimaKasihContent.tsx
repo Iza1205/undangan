@@ -112,7 +112,7 @@ export default function TerimaKasihContent() {
               flexShrink: 0,
               position: 'relative',
             }}>
-              <Image src='/mempelai/lakii.png' alt={groom.name} fill style={{ objectFit: 'cover' }} />
+              <Image src='/mempelai/1.png' alt={groom.name} fill style={{ objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-1)', marginBottom: 4 }}>{groom.name}</p>
@@ -132,7 +132,7 @@ export default function TerimaKasihContent() {
               flexShrink: 0,
               position: 'relative',
             }}>
-              <Image src='/mempelai/cewee.png' alt={bride.name} fill style={{ objectFit: 'cover' }} />
+              <Image src='/mempelai/2.png' alt={bride.name} fill style={{ objectFit: 'cover' }} />
             </div>
             <div>
               <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-1)', marginBottom: 4 }}>{bride.name}</p>

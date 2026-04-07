@@ -151,7 +151,7 @@ export default function SectionMempelai({ q }: { q: string }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 10, alignItems: 'stretch' }}>
 
         <PersonCard
-          photo="/mempelai/lakii.png"
+          photo="/mempelai/1.png"
           name={groom.name}
           father={groom.father}
           mother={groom.mother}
@@ -172,7 +172,7 @@ export default function SectionMempelai({ q }: { q: string }) {
         </div>
 
         <PersonCard
-          photo="/mempelai/cewee.png"
+          photo="/mempelai/2.png"
           name={bride.name}
           father={bride.father}
           mother={bride.mother}
