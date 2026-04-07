@@ -5,6 +5,9 @@ import MusicPlayer from '@/components/MusicPlayer'
 export const metadata: Metadata = {
   title: 'Undangan Pernikahan Digital',
   description: 'Undangan pernikahan digital modern',
+  icons: {
+    icon: '/faviconn.svg',
+  },
 }
 
 export const viewport: Viewport = {
