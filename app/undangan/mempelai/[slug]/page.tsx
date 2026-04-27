@@ -5,8 +5,9 @@ import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Quote } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import BottomNav from '@/components/BottomNav'
+import Loading from '@/app/loading'
 
 function IgIcon({ size = 14 }: { size?: number }) {
   return (
@@ -33,6 +34,13 @@ function MempelaiDetailInner({ params }: { params: { slug: string } }) {
   const guest = searchParams.get('untuk') || undefined
   const { groom, bride } = weddingConfig
 
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 600)
+    return () => clearTimeout(t)
+  }, [])
+
   const person = groom.slug === params.slug
     ? groom
     : bride.slug === params.slug
@@ -40,6 +48,8 @@ function MempelaiDetailInner({ params }: { params: { slug: string } }) {
       : null
 
   if (!person) notFound()
+
+  if (!ready) return <Loading />
 
   const isGroom = person.slug === groom.slug
 
@@ -281,7 +291,7 @@ function MempelaiDetailInner({ params }: { params: { slug: string } }) {
 
 export default function MempelaiDetailPage({ params }: { params: { slug: string } }) {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<Loading />}>
       <MempelaiDetailInner params={params} />
     </Suspense>
   )
