@@ -13,8 +13,8 @@ const stories = [
     title: 'Awal Pertemuan',
     image: '/story/A.png',
     description: [
-      'Awalnya cuma ikut teman ke pantai, niatnya ya sekadar jalan dan refreshing. Di situ kita pertama kali ketemu. Obrolannya langsung nyambung, nggak canggung, dan nyaman aja dari awal.',
-      'Yang paling keinget justru momen pulang boncengan dari pantai sambil ngobrol santai. Sederhana, tapi malah jadi momen yang kepikiran terus setelahnya.',
+      'Maret 2023 menjadi awal kisah kami. Dari sebuah pertemuan sederhana, kami saling berkenalan dan mulai berbagi cerita tentang banyak hal.',
+      'Obrolan demi obrolan mengalir begitu saja, menghadirkan rasa nyaman yang perlahan tumbuh menjadi kedekatan. Tanpa disadari, pertemuan itu menjadi titik awal perjalanan yang tidak pernah kami sangka sebelumnya.',
     ],
   },
   {
@@ -22,8 +22,8 @@ const stories = [
     title: 'Menjalin Komitmen',
     image: '/story/b.png',
     description: [
-      'Setelah dari pantai, kita tetap lanjut komunikasi. Awalnya biasa aja, tapi lama-lama jadi kebiasaan chat, telpon, dan saling cerita hal-hal kecil.',
-      'Dari situ kita sadar kalau hubungan ini lebih dari sekadar teman. Akhirnya di tahun itu juga, kita sepakat untuk jalan bareng dan mulai hubungan yang lebih serius.',
+      'Seiring berjalannya waktu, kami merasa ada kecocokan yang semakin kuat. Dari rasa nyaman itu, kami pun sepakat untuk melangkah lebih jauh dan menjalin sebuah hubungan.',
+      'Hari-hari yang kami lalui bersama menjadi penuh warna, diisi dengan tawa, cerita, serta proses saling memahami satu sama lain.',
     ],
   },
   {
@@ -31,8 +31,8 @@ const stories = [
     title: 'LDR Serang - Jogja',
     image: '/story/c.png',
     description: [
-      'Setelah Nurul lulus, dia pulang ke Jogja dan kita mulai LDR Serang – Jogja. Nggak selalu mudah, karena nggak bisa ketemu kapan aja.',
-      'Tapi kita tetap jalanin, saling jaga komunikasi. Sesekali ada waktu buat ketemu, termasuk di akhir 2024 waktu wisuda momen singkat tapi cukup berarti.',
+      'Mei 2024 menjadi salah satu fase yang cukup menantang. Nurul memutuskan untuk pulang kampung demi pekerjaan, sementara Iza masih menetap di Jogja.',
+      'Jarak pun hadir di antara kami, menjadikan hubungan ini harus dijalani dengan kesabaran dan kepercayaan. Delapan bulan menjalani hubungan jarak jauh (LDR) bukanlah hal yang mudah. Rindu seringkali datang tanpa permisi, namun komunikasi dan komitmen menjadi jembatan yang menguatkan kami.',
     ],
   },
   {
@@ -40,8 +40,9 @@ const stories = [
     title: 'LDR Serang - Jakarta',
     image: '/story/f.png',
     description: [
-      'Awal 2025, Iza pindah kerja ke Jakarta. Jarak jadi lebih dekat dibanding sebelumnya, walaupun masih LDR.',
-      'Bedanya, sekarang lebih sering punya kesempatan buat ketemu. Nggak selalu lama, tapi cukup buat jaga hubungan tetap jalan dengan baik.',
+      'Januari 2025, sebuah langkah baru kembali diambil. Iza memutuskan untuk bekerja di Jakarta. Meskipun jarak masih memisahkan, kami merasakan bahwa hubungan ini justru semakin dekat.',
+      'Perjalanan yang kami lalui selama LDR mengajarkan arti kesetiaan, kepercayaan, dan pentingnya saling menjaga satu sama lain.',
+      'Desember 2025 menjadi momen yang sangat berarti dalam perjalanan kami. Dengan penuh keyakinan dan kesungguhan, Iza meminta izin kepada orang tua untuk membawa hubungan ini ke jenjang yang lebih serius. Restu dan doa dari keluarga menjadi kekuatan besar bagi kami untuk melangkah ke tahap berikutnya.'
     ],
   },
   {
@@ -49,8 +50,8 @@ const stories = [
     title: 'Dari perjalanan panjang, akhirnya satu tujuan.',
     image: '/story/e.png',
     description: [
-      'Setelah melewati berbagai fase ketemu tanpa rencana, LDR jauh, sampai yang lebih dekat kita belajar banyak hal tentang komitmen dan konsisten.',
-      'Akhirnya di tahun 2026, kita memutuskan untuk melangkah ke tahap yang lebih serius. 02-06-2026 jadi hari yang kita pilih untuk memulai bab baru, sebagai pasangan suami istri.',
+      'Hingga akhirnya, setelah melalui berbagai proses, cerita, dan perjalanan yang penuh makna, kami sampai pada titik yang kami impikan bersama. Dengan penuh rasa syukur, cinta, dan harapan, 02 Juni 2026 menjadi hari di mana kami memulai babak baru dalam hidup kami, mengikat janji suci dalam pernikahan.',
+      'Semoga langkah ini menjadi awal dari perjalanan panjang yang selalu dipenuhi cinta, keberkahan, kebahagiaan, serta kebersamaan hingga akhir hayat.',
     ],
   },
 ]
