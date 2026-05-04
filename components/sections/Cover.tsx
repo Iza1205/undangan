@@ -62,7 +62,7 @@ export default function Cover({ onOpen }: CoverProps) {
             >
               {/* Background image */}
               <Image
-                src="/bcc.png"
+                src="/bc.png"
                 alt="Background"
                 fill
                 sizes="430px"
