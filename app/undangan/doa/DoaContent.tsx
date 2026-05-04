@@ -54,6 +54,26 @@ function groupReactions(reactions: Reaction[]): Record<string, Record<ReactionTy
   return result
 }
 
+function playSuccess() {
+  try {
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const times = [0, 0.12, 0.24]
+    const freqs = [520, 660, 800]
+    times.forEach((t, i) => {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.frequency.value = freqs[i]
+      osc.type = 'sine'
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + t)
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.18)
+      osc.start(ctx.currentTime + t)
+      osc.stop(ctx.currentTime + t + 0.2)
+    })
+  } catch { /* silent */ }
+}
+
 function ReactionRow({ doaId, guest, rxMap, reactionLoading, tooltip, onReact, onTooltip, onTooltipClear }: {
   doaId: string; guest: string; rxMap: Record<ReactionType, string[]>
   reactionLoading: string | null; tooltip: { doaId: string; type: ReactionType } | null
@@ -203,6 +223,7 @@ export default function DoaContent() {
       })
       if (r.ok) {
         setRsvpSub(true)
+        playSuccess()
         try { localStorage.setItem(rsvpKey, 'true') } catch { /* silent */ }
       } else {
         const e = await r.json(); setRsvpError(e.error || 'Gagal mengirim, coba lagi.')
@@ -224,6 +245,7 @@ export default function DoaContent() {
       if (r.ok) {
         const newDoa: Doa = await r.json()
         setDoaSub(true)
+        playSuccess()
         try { localStorage.setItem(doaKey, 'true') } catch { /* silent */ }
         setNewId(newDoa.id)
         setDoas(prev => [newDoa, ...prev])
