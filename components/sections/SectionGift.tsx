@@ -1,82 +1,8 @@
 'use client'
 
 import { weddingConfig } from '@/lib/weddingData'
-import { CreditCard, Package, Copy, Check, ChevronDown } from 'lucide-react'
+import { CreditCard, Package, Copy, Check } from 'lucide-react'
 import { useState } from 'react'
-
-const BCA_INSTRUCTIONS = [
-  {
-    title: 'Sesama BCA (BCA Mobile)',
-    type: 'ol' as const,
-    steps: [
-      '- Buka BCA Mobile, pilih m-BCA & masukkan kode akses.',
-      '- Pilih m-Transfer > Transfer Antar Rekening.',
-      '- Pilih Daftar Rekening atau langsung Transfer.',
-      '- Masukkan nomor rekening tujuan, isi nominal.',
-      '- Masukkan PIN BCA. Dana masuk real-time.',
-    ],
-  },
-  {
-    title: 'Beda Bank (ke BCA)',
-    type: 'ol' as const,
-    steps: [
-      '- Pilih menu Transfer > Transfer ke Bank Lain.',
-      '- Pilih Bank BCA pada daftar bank tujuan.',
-      '- Masukkan nomor rekening tujuan.',
-      '- Pilih metode transfer: BI-Fast (Rp2.500) atau Online (Rp6.500).',
-      '- Masukkan nominal dan PIN untuk verifikasi.',
-    ],
-  },
-  {
-    title: 'Via ATM BCA',
-    type: 'ul' as const,
-    steps: [
-      'Sesama: Kartu > PIN > Transfer > Ke Rek BCA > No. Rek & Nominal.',
-      'Beda Bank: Kartu > PIN > Transfer > Ke Bank Lain > Kode Bank + No. Rek > Nominal.',
-    ],
-  },
-]
-
-const BSI_INSTRUCTIONS = [
-  {
-    title: 'Sesama BSI (BSI Mobile)',
-    type: 'ol' as const,
-    steps: [
-      '- Buka aplikasi BSI Mobile dan login.',
-      '- Pilih menu Transfer.',
-      '- Pilih Transfer antar Rekening BSI.',
-      '- Masukkan PIN, lalu masukkan nomor rekening tujuan dan nominal.',
-      '- Konfirmasi detail transfer dan selesai.',
-    ],
-  },
-  {
-    title: 'Beda Bank / BI Fast (BSI Mobile)',
-    type: 'ol' as const,
-    steps: [
-      '- Pilih menu Transfer antar Bank atau Transfer Online.',
-      '- Masukkan kode bank BSI: 451.',
-      '- Masukkan nomor rekening BSI tujuan (Contoh: 451 + 1234567890',
-      '- Masukkan nominal, konfirmasi, dan transfer selesai.',
-    ],
-  },
-]
-
-const BANK_META: Record<string, { instructions: typeof BCA_INSTRUCTIONS }> = {
-  'Bank BCA': { instructions: BCA_INSTRUCTIONS },
-  'Bank BSI': { instructions: BSI_INSTRUCTIONS },
-}
-
-const S: Record<string, React.CSSProperties> = {
-  label: {
-    fontSize: 11, fontWeight: 500, color: 'var(--ink-3)',
-    letterSpacing: '0.06em', textTransform: 'uppercase' as const,
-  },
-  tabBtn: {
-    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-    padding: '12px', borderRadius: 12, border: '1px solid var(--border)',
-    fontSize: 13, fontWeight: 600, transition: 'all 0.2s', cursor: 'pointer',
-  },
-}
 
 const copyKeyframes = `
 @keyframes copyBounce {
@@ -101,31 +27,16 @@ const copyKeyframes = `
 }
 `
 
-function TransferInstructions({ instructions }: { instructions: typeof BCA_INSTRUCTIONS }) {
-  if (!instructions.length) return null
-  return (
-    <div style={{ padding: '4px 16px 14px', fontSize: 11, color: 'var(--ink-3)', lineHeight: 1.7 }}>
-      {instructions.map((section, i) => (
-        <div key={i} style={{ marginTop: i === 0 ? 0 : 10 }}>
-          <p style={{
-            fontSize: 10, fontWeight: 700, color: 'var(--ink-2)',
-            textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4,
-          }}>
-            {section.title}
-          </p>
-          {section.type === 'ol' ? (
-            <ol style={{ paddingLeft: 16 }}>
-              {section.steps.map((s, j) => <li key={j} style={{ marginBottom: 2 }}>{s}</li>)}
-            </ol>
-          ) : (
-            <ul style={{ paddingLeft: 16 }}>
-              {section.steps.map((s, j) => <li key={j} style={{ marginBottom: 2 }}>{s}</li>)}
-            </ul>
-          )}
-        </div>
-      ))}
-    </div>
-  )
+const S: Record<string, React.CSSProperties> = {
+  label: {
+    fontSize: 11, fontWeight: 500, color: 'var(--ink-3)',
+    letterSpacing: '0.06em', textTransform: 'uppercase' as const,
+  },
+  tabBtn: {
+    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    padding: '12px', borderRadius: 12, border: '1px solid var(--border)',
+    fontSize: 13, fontWeight: 600, transition: 'all 0.2s', cursor: 'pointer',
+  },
 }
 
 function BankCard({
@@ -139,9 +50,7 @@ function BankCard({
   copiedId: string | null
   onCopy: (text: string, id: string) => void
 }) {
-  const [open, setOpen] = useState(false)
   const [animating, setAnimating] = useState(false)
-  const instructions = BANK_META[acc.bankName]?.instructions ?? []
   const isCopied = copiedId === `bank-${index}`
 
   const handleCopyClick = () => {
@@ -198,34 +107,6 @@ function BankCard({
           </button>
         </div>
       </div>
-
-      {instructions.length > 0 && (
-        <>
-          <div style={{ height: '0.5px', background: 'var(--border)' }} />
-          <button
-            onClick={() => setOpen(!open)}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '10px 16px', background: 'transparent', border: 'none',
-              cursor: 'pointer', textAlign: 'left' as const,
-            }}
-          >
-            <span style={{ fontSize: 11, color: 'var(--ink-3)', fontWeight: 500 }}>Cara transfer</span>
-            <ChevronDown
-              size={13}
-              color="var(--ink-3)"
-              style={{
-                transition: 'transform 0.25s',
-                transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-                flexShrink: 0,
-              }}
-            />
-          </button>
-          <div style={{ overflow: 'hidden', maxHeight: open ? 700 : 0, transition: 'max-height 0.3s ease' }}>
-            <TransferInstructions instructions={instructions} />
-          </div>
-        </>
-      )}
     </div>
   )
 }

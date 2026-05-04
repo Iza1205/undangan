@@ -4,72 +4,56 @@
 //  Taruh file gambarnya di folder /public/kumpulan/
 // ─────────────────────────────────────────────
 
-export type GalleryCategory = 'Semua' | 'Kuliah' | 'Jalan-Jalan' | 'Seru-Seruan' | 'Jogja' | 'Serang'
-
 export type GalleryItem = {
   id: string
   src: string
   caption: string
-  category: Exclude<GalleryCategory, 'Semua'>
 }
 
 export const galleryItems: GalleryItem[] = [
   {
     id: 'foto-1',
-    src: '/kumpulan/1.png',
+    src: '/kumpulan/a.png',
     caption: '',
-    category: 'Kuliah',
   },
   {
     id: 'foto-2',
-    src: '/kumpulan/2.png',
+    src: '/kumpulan/b.png',
     caption: '',
-    category: 'Kuliah',
   },
   {
     id: 'foto-3',
-    src: '/kumpulan/3.png',
+    src: '/kumpulan/c.png',
     caption: '',
-    category: 'Jalan-Jalan',
   },
   {
     id: 'foto-4',
-    src: '/kumpulan/4.png',
+    src: '/kumpulan/d.png',
     caption: '',
-    category: 'Jalan-Jalan',
   },
   {
     id: 'foto-5',
-    src: '/kumpulan/5.png',
+    src: '/kumpulan/e.png',
     caption: '',
-    category: 'Seru-Seruan',
   },
   {
     id: 'foto-6',
-    src: '/kumpulan/6.png',
+    src: '/kumpulan/f.png',
     caption: '',
-    category: 'Seru-Seruan',
   },
   {
     id: 'foto-7',
-    src: '/kumpulan/7.png',
+    src: '/kumpulan/g.png',
     caption: '',
-    category: 'Jogja',
   },
   {
     id: 'foto-8',
-    src: '/kumpulan/8.png',
+    src: '/kumpulan/h.png',
     caption: '',
-    category: 'Serang',
   },
   {
     id: 'foto-9',
-    src: '/kumpulan/9.png',
+    src: '/kumpulan/i.png',
     caption: '',
-    category: 'Serang',
   },
-]
-
-export const categories: GalleryCategory[] = [
-  'Semua', 'Kuliah', 'Jalan-Jalan', 'Seru-Seruan', 'Jogja', 'Serang',
 ]

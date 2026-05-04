@@ -32,9 +32,9 @@ export type Reaction = {
 function uid(): string {
   return Math.random().toString(36).slice(2, 8)
 }
-function slugify(name: string, suffix: string): string {
+function slugify(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim()
-    .replace(/\s+/g, '-') + '-' + suffix
+    .replace(/\s+/g, '-')
 }
 
 /* ══════════════════════════════════════════
@@ -141,8 +141,12 @@ export async function getStats() {
 export async function addGuest(data: { name: string; type?: string; category?: string; phone?: string; notes?: string }): Promise<Guest> {
   const guests = await getAll()
   const id = uid()
+  let slug = slugify(data.name)
+  if (guests.find(g => g.slug === slug)) {
+    slug = slug + '-' + uid()
+  }
   const guest: Guest = {
-    id, slug: slugify(data.name, uid()),
+    id, slug,
     name: data.name, type: data.type === 'vip' ? 'vip' : 'umum',
     category: data.category || '', phone: data.phone || '',
     notes: data.notes || '', opened: false, openedAt: null,
@@ -174,8 +178,12 @@ export async function importGuests(rows: Array<{ name: string; type?: string; ca
     if (!row.name?.trim()) continue
     if (guests.find(g => g.name.toLowerCase() === row.name.toLowerCase())) continue
     const id = uid()
+    let slug = slugify(row.name)
+    if (guests.find(g => g.slug === slug)) {
+      slug = slug + '-' + uid()
+    }
     guests.push({
-      id, slug: slugify(row.name, uid()), name: row.name,
+      id, slug, name: row.name,
       type: row.type === 'vip' ? 'vip' : 'umum',
       category: row.category || '', phone: row.phone || '',
       notes: '', opened: false, openedAt: null,

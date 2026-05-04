@@ -57,11 +57,11 @@ export const weddingConfig = {
   },
 
   gallery: [
-    '/gallery/1.png',
-    '/gallery/2.png',
-    '/gallery/3.png',
-    '/gallery/4.png',
-    '/gallery/5.png',
+    '/gallery/foto1.png',
+    '/gallery/foto2.png',
+    '/gallery/foto3.png',
+    '/gallery/foto4.png',
+    '/gallery/foto5.png',
   ],
 
   gifts: {
