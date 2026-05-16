@@ -35,7 +35,7 @@ export const weddingConfig = {
       id: 'akad',
       name: 'Akad Nikah',
       date: 'Selasa, 02 Juni 2026',
-      time: '08.00 WIB',
+      time: '09.00 WIB',
       color: '#F59E0B',
     },
     {
