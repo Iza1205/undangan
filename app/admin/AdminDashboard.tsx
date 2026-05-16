@@ -17,23 +17,22 @@ const BRIDE = process.env.NEXT_PUBLIC_BRIDE_NAME ?? 'Nurul'
 
 const DEFAULT_TEMPLATE = `Assalamualaikum Wr. Wb. 🌸
 
-Kepada Yth.
-Bapak/Ibu/Saudara/i
-*{nama}*
+Dear *{nama}*
 
-Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i, teman sekaligus sahabat untuk menghadiri acara pernikahan kami.
+With great joy, we would like to invite you to celebrate our wedding day 🤍
 
-Berikut link undangan kami, untuk info lengkap dari acara bisa kunjungi :
+✨*${GROOM} & ${BRIDE}*✨
 
+💌 Open your personal invitation here:
 {link}
 
-Merupakan suatu kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
+It would mean so much to us to have your presence and prayers on our special day.
 
-Wassalamu'alaikum Warahmatullahi Wabarakatuh
+We can't wait to celebrate with you ✨
 
-Terima kasih banyak atas perhatiannya.
+Wassalamu'alaikum Wr. Wb.
 
-_Keluarga Besar ${GROOM} & ${BRIDE}_`
+_With love, ${GROOM} & ${BRIDE}_`
 
 const invUrl = (slug:string) => `${BASE_URL}/invitation/${slug}`
 
