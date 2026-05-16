@@ -21,7 +21,7 @@ Dear *{nama}*
 
 With great joy, we would like to invite you to celebrate our wedding day 🤍
 
-✨*${GROOM} & ${BRIDE}*✨
+✨*${BRIDE} & ${GROOM}*✨
 
 💌 Open your personal invitation here:
 {link}
@@ -32,7 +32,7 @@ We can't wait to celebrate with you ✨
 
 Wassalamu'alaikum Wr. Wb.
 
-_With love, ${GROOM} & ${BRIDE}_`
+_With love, ${BRIDE} & ${GROOM}_`
 
 const invUrl = (slug:string) => `${BASE_URL}/invitation/${slug}`
 
