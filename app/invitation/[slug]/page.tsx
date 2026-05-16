@@ -1,5 +1,4 @@
-import { getBySlug, markOpened } from '@/lib/store'
-import { redirect } from 'next/navigation'
+import { getBySlug } from '@/lib/store'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -13,13 +12,11 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const guest = await getBySlug(params.slug)
-
   return {
     title: WEDDING_TITLE,
     description: WEDDING_DATE,
     openGraph: {
-      title: `${WEDDING_TITLE}`,
+      title: WEDDING_TITLE,
       description: WEDDING_DATE,
       url: `${BASE_URL}/invitation/${params.slug}`,
       siteName: SITE_NAME,
@@ -44,7 +41,19 @@ export default async function InvitationSlugPage({
   const guest = await getBySlug(params.slug)
   if (!guest) notFound()
 
-  await markOpened(params.slug)
+  const redirectUrl = `/undangan?untuk=${encodeURIComponent(guest.name)}`
 
-  redirect(`/undangan?untuk=${encodeURIComponent(guest.name)}`)
+  return (
+    <>
+      <meta httpEquiv="refresh" content={`0;url=${redirectUrl}`} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            sessionStorage.setItem('from_cover', 'true');
+            window.location.replace('${redirectUrl}');
+          `,
+        }}
+      />
+    </>
+  )
 }
