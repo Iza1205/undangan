@@ -13,7 +13,7 @@ export default function TerimaKasihContent() {
   const { groom, bride } = weddingConfig
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ background: '#F7F7F8' }}>
       <style suppressHydrationWarning>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(14px); }

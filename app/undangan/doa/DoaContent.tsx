@@ -280,7 +280,7 @@ export default function DoaContent() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ background: '#F7F7F8' }}>
       <style suppressHydrationWarning>{`
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
@@ -331,7 +331,6 @@ export default function DoaContent() {
               ))}
             </div>
 
-            {/* Notes field - muncul setelah pilih */}
             {attendance && (
               <div style={{ marginBottom: 14, animation: 'scalePop 0.25s ease both' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>

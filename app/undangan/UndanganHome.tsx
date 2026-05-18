@@ -19,7 +19,7 @@ export default function UndanganHome() {
   const q = `?untuk=${encodeURIComponent(guest)}`
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ background: '#F7F7F8' }}>
       <div className="page-content">
         <SectionKepada   guest={guest} />
         <SectionHadist />

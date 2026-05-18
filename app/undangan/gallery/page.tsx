@@ -56,7 +56,7 @@ export default function GalleryPage() {
   const rightCol = filtered.filter((_, i) => i % 2 === 1)
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ background: '#F7F7F8' }}>
       <style suppressHydrationWarning>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(16px); }
