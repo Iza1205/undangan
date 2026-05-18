@@ -13,7 +13,7 @@ const labelStyle: React.CSSProperties = {
 }
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '10px 12px',
-  background: 'var(--bg)', border: '1px solid var(--border)',
+  background: '#F7F7F8', border: '1px solid var(--border)',
   borderRadius: 8, fontSize: 13, fontWeight: 400,
   color: 'var(--ink-1)', fontFamily: 'var(--font)',
   outline: 'none', marginBottom: 12,
