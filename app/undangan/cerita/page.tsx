@@ -1,17 +1,12 @@
 'use client'
 
 import { Suspense } from 'react'
-import StoryContent from './StoryContent' // Pastikan nama file sudah diganti ke StoryContent.tsx
+import StoryContent from './StoryContent'
+import Loading from '@/app/loading'
 
 export default function StoryPage() {
   return (
-    <Suspense 
-      fallback={
-        <div className="app-shell flex items-center justify-center min-h-screen">
-          <div className="text-primary text-sm">Memuat Cerita...</div>
-        </div>
-      }
-    >
+    <Suspense fallback={<Loading />}>
       <StoryContent />
     </Suspense>
   )

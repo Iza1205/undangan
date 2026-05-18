@@ -1,29 +1,25 @@
 // app/loading.tsx
 export default function Loading() {
   return (
-    <div style={{
-      height: '100vh',
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#fff',
-      zIndex: 999
-    }}>
-      <div className="simple-loader"></div>
+    <>
+      <div className="top-loader" />
       <style>{`
-        .simple-loader {
-          width: 30px;
-          height: 30px;
-          border: 2px solid #f3f4f6;
-          border-top: 2px solid #111827;
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
+        .top-loader {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 3px;
+          width: 100%;
+          background: linear-gradient(to right, #6366f1, #3b82f6);
+          animation: top-load 1.4s ease-in-out infinite;
+          z-index: 9999;
         }
-        @keyframes spin {
-          to { transform: rotate(360deg); }
+        @keyframes top-load {
+          0%   { transform: translateX(-100%); }
+          50%  { transform: translateX(0%); }
+          100% { transform: translateX(100%); }
         }
       `}</style>
-    </div>
+    </>
   )
 }
