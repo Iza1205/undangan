@@ -132,7 +132,7 @@ function StoryInner() {
   }, [])
 
   return (
-    <div className="app-shell" style={{ background: '#FFFFFF', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="app-shell" style={{ background: '#F7F7F8', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <div className="page-content" style={{ padding: '0 24px 140px' }}>
 
         {/* Header */}
