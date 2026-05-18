@@ -43,7 +43,7 @@ export default function DoorTransition({ isOpen, onComplete }: DoorTransitionPro
               aspectRatio: '9 / 16',
               maxHeight: '100dvh',
               overflow: 'hidden',
-              borderRadius: 'clamp(0px, 2vw, 16px)',
+              borderRadius: 'clamp(0px, 2vw, 0px)',
             }}
           >
             {/* Background putih bersih */}
