@@ -27,18 +27,18 @@ export default function BottomNav({ guestName }: { guestName?: string }) {
           display: flex;
           justify-content: center;
           padding: 0 0 env(safe-area-inset-bottom, 0px);
-          background: rgba(255,255,255,0.82);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-top: 1px solid rgba(0,0,0,0.06);
         }
         .bn-inner {
           width: 100%;
-          max-width: 480px;
+          max-width: 430px;
           display: flex;
           align-items: center;
           justify-content: space-around;
           padding: 6px 4px 8px;
+          background: rgba(255,255,255,0.82);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(0,0,0,0.06);
         }
         .bn-btn {
           display: flex;
